@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tài liệu demo — Định danh số & Token hoá tài sản</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Playpen+Sans:wght@500;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fdfaf1; --ink: #2b2a28; --soft: #6b6862; --yellow: #ffe066; --blue: #a5d8ff; --green: #b2f2bb; --pink: #ffc9c9; --purple: #d0bfff;
+    --blue-ink: #1864ab; --red-ink: #c92a2a; --green-ink: #2b8a3e;
+    --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    --head: "Playpen Sans", "Patrick Hand", "Segoe Print", cursive;
+    --body: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+  body {
+    margin: 0; font-family: var(--body); font-size: 16.5px; line-height: 1.65; color: var(--ink); background: var(--paper);
+    background-image: radial-gradient(circle, rgba(43,42,40,.12) 1px, transparent 1.4px); background-size: 22px 22px;
+  }
+  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 34px; max-width: 1180px; margin: 0 auto; padding: 24px 16px 60px; }
+  nav.toc { position: sticky; top: 16px; align-self: start; max-height: calc(100vh - 32px); overflow: auto; padding: 16px 18px; background: #fff;
+    border: 2.5px solid var(--ink); border-radius: var(--wobble); box-shadow: 4px 5px 0 var(--ink); font-family: var(--head); font-size: .92rem; }
+  nav.toc b { display: block; margin-bottom: 6px; font-size: 1.05rem; }
+  nav.toc a { display: block; padding: 4px 0; color: var(--ink); text-decoration: none; }
+  nav.toc a:hover { color: var(--blue-ink); text-decoration: underline wavy; }
+  h1, h2, h3, h4 { font-family: var(--head); line-height: 1.25; }
+  h1 { font-size: 2.2rem; margin: 0 0 8px; }
+  h2 { font-size: 1.6rem; margin: 54px 0 14px; display: inline-block; padding: 0 8px;
+    background: linear-gradient(transparent 58%, var(--yellow) 58%, var(--yellow) 92%, transparent 92%); }
+  h2 .no { color: var(--red-ink); margin-right: 6px; }
+  h3 { font-size: 1.2rem; margin: 30px 0 8px; }
+  h4 { font-size: 1.02rem; margin: 20px 0 6px; }
+  p { margin: 8px 0; }
+  a { color: var(--blue-ink); }
+  .lead { font-size: 1.1rem; color: var(--soft); max-width: 720px; }
+  .hero { padding: 28px 30px; background: #fff9db; border: 2.5px solid var(--ink); border-radius: var(--wobble); box-shadow: 5px 6px 0 var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip { font-family: var(--head); font-size: .85rem; padding: 2px 12px; background: #fff; border: 2px solid var(--ink); border-radius: 14px 5px 14px 5px; }
+  .card { padding: 16px 20px; margin: 16px 0; background: #fff; border: 2.5px solid var(--ink); border-radius: 18px 8px 20px 8px / 8px 20px 8px 18px; box-shadow: 3px 4px 0 var(--ink); }
+  .card.blue { background: #e7f5ff; } .card.green { background: #ebfbee; } .card.pink { background: #fff5f5; } .card.yellow { background: #fff9db; }
+  .card > :first-child { margin-top: 0; } .card > :last-child { margin-bottom: 0; }
+  .note { border-style: dashed; box-shadow: none; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .grid2 .card { margin: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; background: #fff; font-size: .95rem; }
+  th, td { padding: 8px 10px; border: 2px solid var(--ink); text-align: left; vertical-align: top; }
+  th { font-family: var(--head); background: var(--yellow); }
+  .table-wrap { overflow-x: auto; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: .9em; background: #f1ecdc; padding: 1px 5px; border-radius: 4px; }
+  pre { margin: 12px 0; padding: 14px 16px; overflow-x: auto; background: #2b2a28; color: #f8f4e6; border-radius: 12px 4px 14px 4px / 4px 14px 4px 12px;
+    font-family: Consolas, "Courier New", monospace; font-size: .88rem; line-height: 1.5; }
+  pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  pre .c { color: #9a968a; }
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 14px 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 16px 50px; }
+  ol.steps > li::before { content: counter(s); position: absolute; left: 0; top: -2px; width: 34px; height: 34px; line-height: 30px; text-align: center;
+    font-family: var(--head); font-weight: 700; background: var(--blue); border: 2.5px solid var(--ink); border-radius: 50% 46% 52% 48%; transform: rotate(-6deg); }
+  figure { margin: 18px 0; }
+  figure img { width: 100%; height: auto; display: block; border: 2.5px solid var(--ink); border-radius: 10px; box-shadow: 4px 5px 0 var(--ink); }
+  figcaption { margin-top: 8px; font-size: .9rem; color: var(--soft); text-align: center; }
+  dl.glossary { display: grid; grid-template-columns: minmax(130px, 200px) 1fr; gap: 8px 18px; }
+  dl.glossary dt { font-family: var(--head); font-weight: 700; }
+  dl.glossary dd { margin: 0; }
+  .tag { font-family: var(--head); font-size: .8rem; padding: 0 8px; border: 2px solid var(--ink); border-radius: 10px 4px 10px 4px; background: var(--green); white-space: nowrap; }
+  .tag.t3 { background: var(--yellow); } .tag.t4 { background: var(--blue); }
+  svg.diagram { width: 100%; height: auto; max-width: 820px; display: block; margin: 0 auto; }
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; gap: 18px; }
+    nav.toc { position: static; max-height: none; }
+    dl.glossary { grid-template-columns: 1fr; gap: 2px; } dl.glossary dd { margin-bottom: 10px; }
+    h1 { font-size: 1.7rem; }
+  }
+  @media print { nav.toc { display: none; } .layout { display: block; } body { background: #fff; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc">
+  <b>📒 Mục lục</b>
+  <a href="#de-bai">1. Đề bài</a>
+  <a href="#ly-thuyet">2. Lý thuyết nền tảng</a>
+  <a href="#y-tuong">3. Ý tưởng &amp; kiến trúc</a>
+  <a href="#thuc-hien">4. Thực hiện ra sao</a>
+  <a href="#cai-dat">5. Cài đặt &amp; chạy (local)</a>
+  <a href="#sepolia">6. Đưa lên testnet Sepolia</a>
+  <a href="#kich-ban">7. Kịch bản demo trước lớp</a>
+  <a href="#loi">8. Lỗi thường gặp</a>
+  <a href="#han-che">9. Hạn chế &amp; hướng phát triển</a>
+  <a href="#bao-cao">10. Gợi ý dàn ý báo cáo</a>
+  <a href="#thuat-ngu">11. Bảng thuật ngữ</a>
+  <a href="#online">12. Chế độ demo &amp; bản online</a>
+  <a href="../" style="margin-top:10px;color:#1864ab">↩ Mở giao diện demo</a>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>ChainID &amp; Assets</h1>
+    <p class="lead">Demo cho môn <b>INS3212 – Blockchain and Cryptocurrency</b>: hệ thống <b>định danh số</b> (Topic 4) kết hợp <b>token hoá &amp; quản lý tài sản</b> (Topic 3) chạy trên Ethereum.</p>
+    <div class="chips"><span class="chip">Solidity 0.8.24</span><span class="chip">Hardhat</span><span class="chip">ethers.js v6</span><span class="chip">MetaMask 🦊</span><span class="chip">HTML/JS thuần</span><span class="chip">Local + Sepolia</span></div>
+  </div>
+
+  <div class="card green" style="margin-top:22px">
+    <h4>⚡ Cách nhanh nhất để xem demo: không cần cài gì</h4>
+    <p>Mở <a href="../?demo">giao diện ở <b>chế độ demo</b></a>. Một blockchain Ethereum mô phỏng sẽ chạy ngay trong trình duyệt, có sẵn dữ liệu mẫu và thanh <b>“Đang đóng vai”</b> để đổi giữa Quản trị / An / Bình / Chi / Khách mới. Không cần MetaMask, không cần ETH, không cần chạy lệnh nào. Chi tiết ở <a href="#online">mục 12</a>.</p>
+  </div>
+
+  <!-- ===================== 1 ===================== -->
+  <h2 id="de-bai"><span class="no">1.</span>Đề bài</h2>
+  <p>Đề thi cuối kỳ không phải bài thi viết mà là <b>đồ án nhóm</b>. Mỗi nhóm nhận một đề tài, tìm hiểu và nộp báo cáo kèm phần mềm demo.</p>
+  <div class="grid2">
+    <div class="card blue">
+      <h4>Yêu cầu nộp bài</h4>
+      <ul>
+        <li>Báo cáo <b>tối thiểu 20 trang</b> về đề tài được giao.</li>
+        <li>Gửi <b>file Word</b> qua email giảng viên <b>trước ngày thi 1 ngày</b>.</li>
+        <li>Nộp <b>bản in</b> vào ngày thi.</li>
+        <li>Có <b>demo phần mềm</b> chạy được.</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>Hai đề tài mà demo này phủ</h4>
+      <p><span class="tag t3">Topic 3</span> Blockchain technology for tokenizing and managing assets</p>
+      <p><span class="tag t4">Topic 4</span> Blockchain-based Identity Management System</p>
+      <p>Hai phần chạy độc lập được, nhưng được nối với nhau để tạo thành một câu chuyện trọn vẹn: <i>phải xác minh danh tính thì mới được sở hữu tài sản số</i>.</p>
+    </div>
+  </div>
+
+  <h3>Thang điểm và demo này giúp được gì</h3>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>Tiêu chí</th><th>Điểm</th><th>Tài liệu / demo hỗ trợ phần nào</th></tr>
+    <tr><td>1</td><td>Introduction – giới thiệu tổng quan đề tài</td><td>1.5</td><td>Mục 2 (lý thuyết), mục 3 (bài toán &amp; ý tưởng)</td></tr>
+    <tr><td>2</td><td>Body – các nội dung chính, chia đề mục rõ ràng</td><td>5</td><td>Mục 2, 3, 4 và dàn ý ở mục 10</td></tr>
+    <tr><td>3</td><td>Conclusion – tổng hợp, đánh giá, ý kiến cá nhân</td><td>1</td><td>Mục 9 (hạn chế, hướng phát triển) là chất liệu để viết nhận định riêng</td></tr>
+    <tr><td>4</td><td><b>Software demo</b></td><td>2</td><td>Toàn bộ project này + kịch bản ở mục 7</td></tr>
+    <tr><td>5</td><td>Trình bày: không lỗi chính tả, có mục lục, danh mục hình, bảng</td><td>0.5</td><td>Ảnh chụp màn hình trong <code>docs/img</code> dùng làm hình minh hoạ</td></tr>
+  </table></div>
+  <div class="card note pink">⚠️ Báo cáo phải do nhóm tự viết bằng lời của mình (và bằng tiếng Anh nếu lớp yêu cầu). Tài liệu này là phần giải thích để bạn <b>hiểu</b> hệ thống trước khi viết, không phải bản báo cáo nộp sẵn.</div>
+
+  <!-- ===================== 2 ===================== -->
+  <h2 id="ly-thuyet"><span class="no">2.</span>Lý thuyết nền tảng</h2>
+
+  <h3>2.1. Blockchain là gì?</h3>
+  <p>Hãy tưởng tượng một <b>cuốn sổ cái</b> ghi mọi giao dịch, nhưng thay vì một ngân hàng giữ, <b>hàng nghìn máy tính trên thế giới mỗi máy giữ một bản sao giống hệt nhau</b>. Muốn ghi thêm một trang mới (một <i>khối</i> – block), đa số các máy phải đồng ý. Mỗi trang lại chứa "dấu vân tay" (hash) của trang trước, nên sửa một trang cũ sẽ làm lệch toàn bộ các trang sau và bị phát hiện ngay.</p>
+  <div class="grid2">
+    <div class="card"><h4>🧱 Bất biến (immutable)</h4><p>Dữ liệu đã ghi thì không sửa, không xoá được. Đây là lý do blockchain phù hợp để lưu "ai sở hữu cái gì" và "ai đã được xác minh".</p></div>
+    <div class="card"><h4>🌐 Phi tập trung (decentralized)</h4><p>Không có một máy chủ hay tổ chức duy nhất kiểm soát. Hệ thống vẫn chạy khi một vài máy hỏng hoặc gian lận.</p></div>
+    <div class="card"><h4>🔍 Minh bạch (transparent)</h4><p>Ai cũng xem được toàn bộ lịch sử giao dịch. Trong demo, tab <b>Nhật ký</b> chính là lịch sử đó.</p></div>
+    <div class="card"><h4>🤝 Đồng thuận (consensus)</h4><p>Quy tắc để các máy thống nhất khối nào hợp lệ. Ethereum hiện dùng <b>Proof of Stake</b>: người xác thực đặt cọc ETH, gian lận thì mất cọc.</p></div>
+  </div>
+
+  <h3>2.2. Ethereum và smart contract</h3>
+  <p><b>Ethereum</b> là một blockchain không chỉ ghi "A chuyển tiền cho B" mà còn chạy được chương trình. Chương trình đó gọi là <b>smart contract</b> (hợp đồng thông minh): một đoạn code được đưa lên blockchain, có địa chỉ riêng, và <b>tự động thực thi đúng như đã viết</b> — không ai, kể cả tác giả, sửa được sau khi triển khai.</p>
+  <p>Ví dụ dễ hiểu: <b>máy bán nước tự động</b>. Bỏ đủ tiền → máy nhả nước, không cần người bán, không thể "xin xỏ". Smart contract của demo hoạt động y như vậy: gửi đủ ETH <i>và</i> ví đã xác minh → nhận cổ phần; thiếu một điều kiện → giao dịch bị từ chối.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Khái niệm</th><th>Giải thích ngắn</th><th>Trong demo</th></tr>
+    <tr><td><b>Ví (wallet) &amp; địa chỉ</b></td><td>Cặp khoá: <i>khoá bí mật</i> (private key, giữ kín, dùng để ký) và <i>địa chỉ công khai</i> dạng <code>0x…</code> (như số tài khoản).</td><td>MetaMask giữ khoá; địa chỉ ví chính là "tài khoản đăng nhập".</td></tr>
+    <tr><td><b>Giao dịch (transaction)</b></td><td>Một yêu cầu thay đổi dữ liệu trên blockchain, được ký bằng khoá bí mật.</td><td>Đăng ký, duyệt, mua, chuyển nhượng… mỗi thao tác là một giao dịch.</td></tr>
+    <tr><td><b>Gas</b></td><td>Phí trả cho mạng lưới để thực thi giao dịch, tính bằng ETH. Chỉ <i>ghi</i> mới tốn gas, <i>đọc</i> thì miễn phí.</td><td>Cửa sổ MetaMask hiện phí gas trước khi bạn bấm xác nhận.</td></tr>
+    <tr><td><b>Solidity</b></td><td>Ngôn ngữ lập trình phổ biến nhất để viết smart contract cho Ethereum.</td><td>2 file trong thư mục <code>contracts/</code>.</td></tr>
+    <tr><td><b>Event</b></td><td>"Thông báo" contract phát ra khi có việc xảy ra; được lưu vĩnh viễn và tra cứu được.</td><td>Nguồn dữ liệu của tab Nhật ký.</td></tr>
+    <tr><td><b>Testnet</b></td><td>Mạng thử nghiệm giống hệt mạng thật nhưng ETH không có giá trị, xin miễn phí.</td><td><b>Sepolia</b> – xem mục 6.</td></tr>
+  </table></div>
+
+  <h3>2.3. Token và token hoá tài sản <span class="tag t3">Topic 3</span></h3>
+  <p><b>Token</b> là một đơn vị giá trị số do smart contract quản lý. <b>Token hoá tài sản</b> (asset tokenization, hay <i>Real-World Asset – RWA</i>) là việc biểu diễn quyền sở hữu một tài sản thật — nhà đất, vàng, tranh, cổ phần công ty — bằng token trên blockchain.</p>
+  <div class="grid2">
+    <div class="card yellow"><h4>Vì sao cần?</h4>
+      <ul>
+        <li><b>Chia nhỏ (fractional ownership):</b> căn hộ 2 tỷ chia 1.000 phần, mỗi phần 2 triệu → nhiều người mua được.</li>
+        <li><b>Thanh khoản:</b> bán lại vài cổ phần dễ hơn bán cả căn nhà.</li>
+        <li><b>Minh bạch:</b> danh sách chủ sở hữu công khai, không thể sửa lén.</li>
+        <li><b>Tự động:</b> chia tiền thuê đúng tỷ lệ bằng code, không qua trung gian.</li>
+        <li><b>Nhanh, 24/7:</b> chuyển nhượng trong vài giây thay vì vài tuần giấy tờ.</li>
+      </ul></div>
+    <div class="card"><h4>Các chuẩn token phổ biến</h4>
+      <ul>
+        <li><b>ERC-20</b> – token <i>giống hệt nhau</i>, thay thế được (tiền, cổ phần của <u>một</u> tài sản).</li>
+        <li><b>ERC-721 (NFT)</b> – mỗi token <i>độc nhất</i> (một bức tranh, một sổ đỏ).</li>
+        <li><b>ERC-1155</b> – một contract quản lý <i>nhiều loại</i> token, mỗi loại có nhiều đơn vị.</li>
+        <li><b>ERC-3643 / ERC-1400</b> – "security token": token chứng khoán, bắt buộc kiểm tra danh tính người nắm giữ.</li>
+      </ul>
+      <p>Demo dùng mô hình <b>giống ERC-1155</b> (nhiều tài sản, mỗi tài sản nhiều cổ phần) cộng thêm quy tắc <b>kiểm tra danh tính kiểu ERC-3643</b>, nhưng viết gọn để dễ đọc.</p></div>
+  </div>
+  <div class="card note">💡 <b>Điểm cần nhớ khi bảo vệ:</b> token chỉ là <i>bản ghi quyền sở hữu</i>. Tài sản thật vẫn nằm ngoài đời, nên luôn cần một <b>đơn vị phát hành</b> đáng tin (và khung pháp lý) bảo đảm rằng token thật sự tương ứng với tài sản. Đây gọi là "bài toán oracle / off-chain trust".</div>
+
+  <h3>2.4. Định danh số <span class="tag t4">Topic 4</span></h3>
+  <p>Định danh số trả lời câu hỏi <i>"làm sao chứng minh trên mạng rằng tôi là tôi?"</i>. Có ba mô hình:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Mô hình</th><th>Ai giữ dữ liệu?</th><th>Ví dụ</th><th>Nhược điểm</th></tr>
+    <tr><td><b>Tập trung</b></td><td>Từng tổ chức giữ riêng</td><td>Tài khoản ngân hàng, tài khoản từng website</td><td>Mỗi nơi một tài khoản; lộ dữ liệu hàng loạt khi bị hack</td></tr>
+    <tr><td><b>Liên kết</b> (federated)</td><td>Một nhà cung cấp lớn</td><td>"Đăng nhập bằng Google/Facebook"</td><td>Phụ thuộc và bị theo dõi bởi nhà cung cấp</td></tr>
+    <tr><td><b>Tự chủ</b> (Self-Sovereign Identity – SSI)</td><td>Chính người dùng (trong ví)</td><td>DID + Verifiable Credentials trên blockchain</td><td>Người dùng tự chịu trách nhiệm giữ khoá</td></tr>
+  </table></div>
+  <p>Các khái niệm chính của mô hình blockchain:</p>
+  <ul>
+    <li><b>DID (Decentralized Identifier):</b> mã định danh do người dùng tự tạo và kiểm soát. Trong demo, <i>địa chỉ ví</i> đóng vai trò DID.</li>
+    <li><b>Issuer / Verifier (bên cấp, bên xác minh):</b> tổ chức có thẩm quyền kiểm tra giấy tờ thật rồi "ký xác nhận". Trong demo là <i>ví quản trị</i> và các ví được uỷ quyền.</li>
+    <li><b>Holder (chủ thể):</b> người sở hữu danh tính — người dùng.</li>
+    <li><b>Relying party (bên tin cậy):</b> bên cần kiểm tra danh tính — ở đây chính là contract <code>AssetToken</code>, hoặc bất kỳ ai dùng ô "Tra cứu".</li>
+    <li><b>KYC (Know Your Customer):</b> quy trình bắt buộc theo luật để tổ chức tài chính biết khách hàng là ai, chống rửa tiền.</li>
+  </ul>
+
+  <h3>2.5. Hàm băm và quyền riêng tư</h3>
+  <p><b>Hàm băm</b> (hash, ở đây là <code>keccak256</code>) biến dữ liệu bất kỳ thành một chuỗi 64 ký tự hex. Cùng đầu vào → luôn cùng kết quả; đổi một ký tự → kết quả khác hoàn toàn; và <b>không tính ngược lại được</b>.</p>
+  <pre><code>keccak256("001200012345|2000-05-20")
+  = 0x71bd28d8e7…   <span class="c">← chỉ chuỗi này được ghi lên blockchain</span></code></pre>
+  <p>Vì blockchain công khai với mọi người, <b>không bao giờ ghi dữ liệu cá nhân thô lên chuỗi</b>. Demo chỉ ghi mã băm của (số giấy tờ + ngày sinh), được tính ngay trong trình duyệt. Ai cầm giấy tờ thật có thể băm lại và so khớp, còn người ngoài nhìn vào blockchain không đọc được số giấy tờ.</p>
+
+  <!-- ===================== 3 ===================== -->
+  <h2 id="y-tuong"><span class="no">3.</span>Ý tưởng &amp; kiến trúc</h2>
+  <h3>3.1. Câu chuyện của demo</h3>
+  <p>Một công ty muốn bán "cổ phần" căn hộ, vàng, tranh cho nhiều nhà đầu tư nhỏ. Pháp luật yêu cầu công ty phải biết nhà đầu tư là ai. Thay vì hồ sơ giấy và sổ sách nội bộ, họ dùng blockchain:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Vai</th><th>Là ai ngoài đời</th><th>Làm được gì trong demo</th></tr>
+    <tr><td>🛠️ <b>Quản trị</b> (ví deploy)</td><td>Cơ quan xác minh + đơn vị phát hành tài sản</td><td>Duyệt / từ chối / thu hồi danh tính; token hoá tài sản; chia thu nhập; tạm ngừng bán; rút tiền bán; uỷ quyền xác minh viên</td></tr>
+    <tr><td>🧑‍⚖️ <b>Xác minh viên</b></td><td>Đối tác được uỷ quyền (vd ngân hàng)</td><td>Duyệt / từ chối / thu hồi danh tính</td></tr>
+    <tr><td>🙂 <b>Người dùng</b></td><td>Công dân / nhà đầu tư</td><td>Đăng ký danh tính; mua, chuyển nhượng cổ phần; rút thu nhập; tra cứu</td></tr>
+    <tr><td>👀 <b>Bất kỳ ai</b></td><td>Bên thứ ba cần kiểm tra</td><td>Tra cứu trạng thái xác minh của một ví, đối chiếu giấy tờ, xem nhật ký</td></tr>
+  </table></div>
+
+  <h3>3.2. Sơ đồ kiến trúc</h3>
+  <div class="card">
+  <svg class="diagram" viewBox="0 0 820 400" role="img" aria-label="Sơ đồ kiến trúc: trình duyệt với MetaMask gọi hai smart contract trên Ethereum" font-family="Playpen Sans, Segoe UI, sans-serif" font-size="14" fill="#2b2a28">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2b2a28"/></marker></defs>
+    <rect x="20" y="24" width="780" height="130" rx="18" fill="#e7f5ff" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="36" y="48" font-weight="700">TRÌNH DUYỆT CỦA NGƯỜI DÙNG</text>
+    <rect x="50" y="66" width="300" height="68" rx="12" fill="#fff" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="200" y="94" text-anchor="middle" font-weight="700">Giao diện web</text>
+    <text x="200" y="116" text-anchor="middle" font-size="12.5">index.html · app.js · ethers.js</text>
+    <rect x="470" y="66" width="300" height="68" rx="12" fill="#ffe066" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="620" y="94" text-anchor="middle" font-weight="700">🦊 Ví MetaMask</text>
+    <text x="620" y="116" text-anchor="middle" font-size="12.5">giữ khoá bí mật · ký giao dịch</text>
+    <path d="M352 100 H466" stroke="#2b2a28" stroke-width="2.5" marker-end="url(#arr)" marker-start="url(#arr)"/>
+    <text x="409" y="90" text-anchor="middle" font-size="12">yêu cầu ký</text>
+
+    <path d="M620 136 V226" stroke="#2b2a28" stroke-width="2.5" marker-end="url(#arr)"/>
+    <text x="632" y="186" font-size="12.5">giao dịch đã ký (tốn gas)</text>
+    <path d="M200 226 V138" stroke="#2b2a28" stroke-width="2.5" stroke-dasharray="6 6" marker-end="url(#arr)"/>
+    <text x="188" y="186" font-size="12.5" text-anchor="end">đọc dữ liệu (miễn phí)</text>
+
+    <rect x="20" y="230" width="780" height="150" rx="18" fill="#ebfbee" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="36" y="254" font-weight="700">BLOCKCHAIN ETHEREUM (Hardhat local hoặc Sepolia)</text>
+    <rect x="50" y="272" width="300" height="88" rx="12" fill="#a5d8ff" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="200" y="298" text-anchor="middle" font-weight="700">IdentityRegistry.sol</text>
+    <text x="200" y="320" text-anchor="middle" font-size="12.5">đăng ký · xác minh · thu hồi</text>
+    <text x="200" y="340" text-anchor="middle" font-size="12.5">Topic 4</text>
+    <rect x="470" y="272" width="300" height="88" rx="12" fill="#fff3bf" stroke="#2b2a28" stroke-width="2.5"/>
+    <text x="620" y="298" text-anchor="middle" font-weight="700">AssetToken.sol</text>
+    <text x="620" y="320" text-anchor="middle" font-size="12.5">token hoá · mua · chuyển · chia thu nhập</text>
+    <text x="620" y="340" text-anchor="middle" font-size="12.5">Topic 3</text>
+    <path d="M466 316 H354" stroke="#2b2a28" stroke-width="2.5" marker-end="url(#arr)"/>
+    <text x="410" y="306" text-anchor="middle" font-size="12">isVerified(ví)?</text>
+  </svg>
+  </div>
+  <p>Điểm đáng chú ý: <b>không có máy chủ backend và không có cơ sở dữ liệu</b>. Trang web chỉ là file tĩnh; toàn bộ dữ liệu và luật nghiệp vụ nằm trong hai smart contract. <code>AssetToken</code> hỏi <code>IdentityRegistry</code> "ví này đã xác minh chưa?" trước mỗi lần mua hoặc chuyển nhượng.</p>
+
+  <h3>3.3. Luồng nghiệp vụ chính</h3>
+  <ol class="steps">
+    <li><b>Đăng ký:</b> người dùng nhập tên, quốc gia, số giấy tờ, ngày sinh → trình duyệt băm (số giấy tờ + ngày sinh) → gửi <code>register()</code> → trạng thái <i>Chờ duyệt</i>.</li>
+    <li><b>Xác minh:</b> cơ quan kiểm tra giấy tờ thật ngoài đời, rồi gọi <code>verify()</code> → trạng thái <i>Đã xác minh</i>. Nếu không hợp lệ thì <code>revoke()</code> kèm lý do.</li>
+    <li><b>Token hoá:</b> đơn vị phát hành gọi <code>createAsset()</code> với tên, số cổ phần, giá mỗi cổ phần.</li>
+    <li><b>Mua:</b> người dùng gọi <code>buyShares()</code> kèm đúng số ETH → contract kiểm tra danh tính, số cổ phần còn lại, số tiền → ghi nhận quyền sở hữu.</li>
+    <li><b>Chia thu nhập:</b> đơn vị phát hành nạp tiền thuê bằng <code>distributeIncome()</code> → mỗi người được phần tương ứng tỷ lệ cổ phần → tự rút bằng <code>claimIncome()</code>.</li>
+    <li><b>Chuyển nhượng:</b> <code>transferShares()</code> — cả người gửi và người nhận phải đã xác minh.</li>
+  </ol>
+
+  <!-- ===================== 4 ===================== -->
+  <h2 id="thuc-hien"><span class="no">4.</span>Thực hiện ra sao</h2>
+  <h3>4.1. Cấu trúc thư mục</h3>
+  <pre><code>blockchain-demo/
+├─ contracts/
+│  ├─ IdentityRegistry.sol   <span class="c"># Topic 4 – sổ đăng ký danh tính</span>
+│  └─ AssetToken.sol         <span class="c"># Topic 3 – token hoá &amp; quản lý tài sản</span>
+├─ test/demo.test.js         <span class="c"># 10 bài kiểm thử tự động</span>
+├─ scripts/
+│  ├─ deploy.js              <span class="c"># deploy + tạo 3 tài sản mẫu + ghi địa chỉ contract cho web</span>
+│  ├─ demo-data.js           <span class="c"># (tuỳ chọn) tạo sẵn người dùng &amp; giao dịch mẫu trên local</span>
+│  ├─ build-web.js           <span class="c"># sinh contracts.js + đóng gói blockchain mô phỏng</span>
+│  └─ serve.js               <span class="c"># web server tĩnh, cổng 5173</span>
+├─ web-src/sim-chain.mjs     <span class="c"># mã nguồn blockchain mô phỏng (chế độ demo)</span>
+├─ frontend/                 <span class="c"># TOÀN BỘ trang web tĩnh – đưa lên mạng là chạy</span>
+│  ├─ index.html · style.css <span class="c"># khung trang + giao diện vẽ tay</span>
+│  ├─ app.js                 <span class="c"># logic: kết nối ví, đọc/ghi contract, vẽ màn hình</span>
+│  ├─ i18n.js                <span class="c"># từ điển Việt / Anh</span>
+│  ├─ demo-mode.js           <span class="c"># chế độ demo: ví + dữ liệu mẫu, không cần MetaMask</span>
+│  ├─ contracts.js           <span class="c"># TỰ SINH: ABI + bytecode của 2 contract</span>
+│  ├─ config.js              <span class="c"># TỰ SINH khi deploy Sepolia: địa chỉ contract</span>
+│  ├─ config.local.js        <span class="c"># TỰ SINH khi deploy local (không commit)</span>
+│  └─ vendor/                <span class="c"># ethers.js + sim-chain.js (đã đóng gói)</span>
+├─ docs/index.html           <span class="c"># tài liệu này</span>
+├─ .github/workflows/pages.yml <span class="c"># tự đưa web lên GitHub Pages khi push</span>
+├─ hardhat.config.js · package.json · .env.example</code></pre>
+
+  <h3>4.2. Contract <code>IdentityRegistry</code> <span class="tag t4">Topic 4</span></h3>
+  <p>Mỗi ví có một bản ghi <code>Identity</code> gồm: tên hiển thị, quốc gia, mã băm giấy tờ, trạng thái, thời điểm đăng ký/cập nhật, người xác minh và ghi chú. Trạng thái đi theo vòng đời:</p>
+  <pre><code>None ──register()──▶ Pending ──verify()──▶ Verified
+                        │                      │
+                        └──────revoke()────────┴──▶ Revoked ──register()──▶ Pending</code></pre>
+  <div class="table-wrap"><table>
+    <tr><th>Hàm</th><th>Ai gọi được</th><th>Tác dụng &amp; điều kiện</th></tr>
+    <tr><td><code>register(name, country, docHash)</code></td><td>Bất kỳ ví nào</td><td>Tạo hồ sơ cho chính ví gọi. Chỉ khi chưa đăng ký hoặc đã bị thu hồi. <b>Một giấy tờ chỉ gắn được với một ví</b>.</td></tr>
+    <tr><td><code>verify(user)</code></td><td>Xác minh viên</td><td>Duyệt hồ sơ đang <i>Pending</i>.</td></tr>
+    <tr><td><code>revoke(user, reason)</code></td><td>Xác minh viên</td><td>Từ chối hồ sơ chờ hoặc thu hồi danh tính đã duyệt, ghi lại lý do.</td></tr>
+    <tr><td><code>setVerifier(account, enabled)</code></td><td>Chủ hệ thống</td><td>Thêm / bớt xác minh viên.</td></tr>
+    <tr><td><code>isVerified(user)</code></td><td>Ai cũng đọc được</td><td>Trả về <code>true/false</code>. Đây là hàm mà <code>AssetToken</code> gọi.</td></tr>
+    <tr><td><code>checkDocument(user, docHash)</code></td><td>Ai cũng đọc được</td><td>Đối chiếu giấy tờ (đã băm) với hồ sơ của ví.</td></tr>
+    <tr><td><code>getIdentity(user)</code>, <code>getUsers()</code></td><td>Ai cũng đọc được</td><td>Lấy hồ sơ và danh sách ví đã đăng ký.</td></tr>
+  </table></div>
+  <p>Phân quyền được viết bằng <b>modifier</b> — đoạn kiểm tra chạy trước thân hàm:</p>
+  <pre><code>modifier onlyVerifier() {
+    require(isVerifier[msg.sender], "Only verifier");   <span class="c">// msg.sender = ví đang gọi</span>
+    _;
+}
+
+function verify(address user) external onlyVerifier {
+    Identity storage id = identities[user];
+    require(id.status == Status.Pending, "Not pending");
+    id.status = Status.Verified;
+    id.verifiedBy = msg.sender;
+    emit IdentityVerified(user, msg.sender);           <span class="c">// ghi vào nhật ký</span>
+}</code></pre>
+
+  <h3>4.3. Contract <code>AssetToken</code> <span class="tag t3">Topic 3</span></h3>
+  <p>Mỗi tài sản là một bản ghi <code>Asset</code> (tên, loại, mô tả, tổng cổ phần, đã bán, giá, đang mở bán?, tổng thu nhập đã chia). Sổ sở hữu là bảng <code>balanceOf[assetId][ví] = số cổ phần</code>.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Hàm</th><th>Ai gọi được</th><th>Tác dụng &amp; điều kiện</th></tr>
+    <tr><td><code>createAsset(name, category, description, totalShares, pricePerShare)</code></td><td>Đơn vị phát hành</td><td>Token hoá một tài sản mới.</td></tr>
+    <tr><td><code>buyShares(assetId, amount)</code> <i>payable</i></td><td>Ví <b>đã xác minh</b></td><td>Đang mở bán, còn đủ cổ phần, gửi đúng <code>amount × giá</code> ETH.</td></tr>
+    <tr><td><code>transferShares(assetId, to, amount)</code></td><td>Ví <b>đã xác minh</b></td><td>Người nhận cũng phải đã xác minh; người gửi đủ cổ phần.</td></tr>
+    <tr><td><code>distributeIncome(assetId)</code> <i>payable</i></td><td>Đơn vị phát hành</td><td>Nạp ETH thu nhập để chia cho người đang giữ cổ phần.</td></tr>
+    <tr><td><code>claimIncome(assetId)</code></td><td>Người giữ cổ phần</td><td>Rút phần thu nhập của mình về ví.</td></tr>
+    <tr><td><code>setSaleOpen(assetId, open)</code></td><td>Đơn vị phát hành</td><td>Tạm ngừng / mở lại việc bán.</td></tr>
+    <tr><td><code>withdrawProceeds()</code></td><td>Đơn vị phát hành</td><td>Rút tiền bán cổ phần.</td></tr>
+    <tr><td><code>getAssets()</code>, <code>getHolders(id)</code>, <code>claimableIncome(id, ví)</code></td><td>Ai cũng đọc được</td><td>Dữ liệu cho giao diện.</td></tr>
+  </table></div>
+  <p>Chỗ hai đề tài gặp nhau chỉ là một dòng — contract tài sản gọi sang contract danh tính:</p>
+  <pre><code>modifier onlyVerified() {
+    require(registry.isVerified(msg.sender), "Identity not verified");
+    _;
+}</code></pre>
+
+  <h4>Cách chia thu nhập hoạt động</h4>
+  <p>Nếu lặp qua toàn bộ chủ sở hữu để chuyển tiền thì càng đông người càng tốn gas, thậm chí vượt giới hạn khối. Contract dùng kỹ thuật phổ biến: lưu <b>"thu nhập luỹ kế trên mỗi cổ phần"</b>, và mỗi người tự rút phần của mình.</p>
+  <div class="card green">
+    <p><b>Ví dụ:</b> An giữ 30 cổ phần, Bình giữ 10 (tổng đã bán 40).</p>
+    <ol>
+      <li>Phát hành nạp 4 ETH → mỗi cổ phần được 4 ÷ 40 = <b>0,1 ETH</b>. An có 3 ETH, Bình có 1 ETH chờ rút.</li>
+      <li>An chuyển 10 cổ phần cho Chi. Trước khi đổi số dư, contract <b>chốt</b> 3 ETH cho An; Chi bắt đầu từ 0.</li>
+      <li>Nạp tiếp 4 ETH → thêm 0,1 ETH/cổ phần. An: 3 + 20×0,1 = <b>5 ETH</b>; Chi: 10×0,1 = <b>1 ETH</b>; Bình: 1 + 1 = <b>2 ETH</b>.</li>
+    </ol>
+    <p>Kịch bản này chính là một bài test trong <code>test/demo.test.js</code>.</p>
+  </div>
+
+  <h4>Các điểm an toàn đã áp dụng</h4>
+  <ul>
+    <li><b>Checks → Effects → Interactions:</b> kiểm tra điều kiện, cập nhật số dư <i>trước</i>, chuyển ETH <i>sau cùng</i> — chống lỗi <i>reentrancy</i> (gọi lại để rút nhiều lần).</li>
+    <li><b>Solidity 0.8+</b> tự chặn tràn số (overflow/underflow).</li>
+    <li><b>Yêu cầu trả đúng số tiền</b> (<code>msg.value == amount × price</code>), không nhận thừa hay thiếu.</li>
+    <li><b>Phân quyền rõ ràng</b> bằng modifier <code>onlyOwner</code>, <code>onlyVerifier</code>, <code>onlyVerified</code>.</li>
+    <li><b>Mọi thay đổi đều phát event</b> để truy vết.</li>
+  </ul>
+
+  <h3>4.4. Giao diện web</h3>
+  <p>HTML/CSS/JS thuần, không cần bước build. Thư viện <b>ethers.js</b> làm cầu nối: nó hỏi MetaMask địa chỉ ví, nhờ MetaMask ký giao dịch, và đọc dữ liệu từ contract.</p>
+  <pre><code><span class="c">// 1. Kết nối ví</span>
+const provider = new ethers.BrowserProvider(window.ethereum);   <span class="c">// window.ethereum do MetaMask cung cấp</span>
+const signer   = await provider.getSigner();
+
+<span class="c">// 2. Tạo đối tượng contract từ địa chỉ + ABI (đọc trong config.js)</span>
+const asset = new ethers.Contract(CFG.asset.address, CFG.asset.abi, signer);
+
+<span class="c">// 3. ĐỌC – miễn phí, trả kết quả ngay</span>
+const assets = await asset.getAssets();
+
+<span class="c">// 4. GHI – MetaMask bật cửa sổ xác nhận, tốn gas, phải chờ vào khối</span>
+const tx = await asset.buyShares(0, 10n, { value: 10n * price });
+await tx.wait();</code></pre>
+  <p><b>ABI</b> là "bảng mô tả" các hàm của contract để JavaScript biết cách gọi. ABI được sinh tự động vào <code>frontend/contracts.js</code>, còn địa chỉ contract được script deploy ghi vào <code>frontend/config.js</code> (Sepolia) hoặc <code>config.local.js</code> (local), nên bạn không phải chép tay.</p>
+  <figure><img src="img/assets.png" alt="Trang Tài sản: danh mục của tôi, form chuyển nhượng và các thẻ tài sản đang token hoá" loading="lazy"><figcaption>Hình 1 – Trang Tài sản: danh mục cá nhân, chuyển nhượng và danh sách tài sản đã token hoá.</figcaption></figure>
+  <div class="grid2">
+    <figure><img src="img/identity.png" alt="Trang Danh tính với thẻ danh tính số đã xác minh" loading="lazy"><figcaption>Hình 2 – Thẻ danh tính số và công cụ tra cứu.</figcaption></figure>
+    <figure><img src="img/admin.png" alt="Trang Quản trị: duyệt hồ sơ, token hoá tài sản, chia thu nhập" loading="lazy"><figcaption>Hình 3 – Trang Quản trị.</figcaption></figure>
+  </div>
+  <div class="grid2">
+    <figure><img src="img/home.png" alt="Trang Tổng quan với hành trình 4 bước" loading="lazy"><figcaption>Hình 4 – Trang Tổng quan và hành trình 4 bước.</figcaption></figure>
+    <figure><img src="img/log.png" alt="Trang Nhật ký hiển thị các sự kiện trên blockchain" loading="lazy"><figcaption>Hình 5 – Nhật ký đọc từ event trên blockchain.</figcaption></figure>
+  </div>
+
+  <h3>4.5. Kiểm thử tự động</h3>
+  <p>Chạy <code>npm test</code> để Hardhat dựng một blockchain tạm trong bộ nhớ và chạy 10 kịch bản, ví dụ: ví chưa xác minh không mua được; một giấy tờ không dùng cho hai ví; chỉ xác minh viên mới duyệt được; thu nhập chia đúng tỷ lệ kể cả sau khi chuyển nhượng; danh tính bị thu hồi thì bị chặn mua.</p>
+
+  <!-- ===================== 5 ===================== -->
+  <h2 id="cai-dat"><span class="no">5.</span>Cài đặt &amp; chạy trên máy (local)</h2>
+  <div class="card blue">
+    <h4>Cần chuẩn bị</h4>
+    <ul>
+      <li><b>Node.js 18 trở lên</b> (khuyến nghị bản 20 LTS) — kiểm tra bằng <code>node -v</code>.</li>
+      <li>Trình duyệt Chrome / Edge / Brave / Firefox có tiện ích <b>MetaMask</b> (<a href="https://metamask.io/download/" target="_blank" rel="noopener">metamask.io/download</a>).</li>
+      <li>Nên tạo một <b>profile trình duyệt / ví MetaMask riêng để thử nghiệm</b>, không dùng chung với ví có tiền thật.</li>
+    </ul>
+  </div>
+  <ol class="steps">
+    <li><b>Cài thư viện</b> (chỉ làm một lần) — mở terminal tại thư mục <code>blockchain-demo</code>:
+      <pre><code>npm install</code></pre></li>
+    <li><b>Chạy thử bộ kiểm thử</b> để chắc contract hoạt động:
+      <pre><code>npm test</code></pre>Kết quả mong đợi: <code>10 passing</code>.</li>
+    <li><b>Terminal 1 – bật blockchain local</b> và <u>để nguyên cửa sổ này</u>:
+      <pre><code>npm run node</code></pre>Hardhat in ra 20 tài khoản thử, mỗi tài khoản có 10.000 ETH giả, kèm <b>Private Key</b>. <code>Account #0</code> sẽ là <b>ví quản trị</b>.</li>
+    <li><b>Terminal 2 – deploy contract</b> (tạo luôn 3 tài sản mẫu):
+      <pre><code>npm run deploy:local</code></pre>
+      <i>Tuỳ chọn:</i> muốn có sẵn người dùng và giao dịch mẫu để xem giao diện ngay thì chạy thêm:
+      <pre><code>npx hardhat run scripts/demo-data.js --network localhost</code></pre></li>
+    <li><b>Terminal 2 – bật web</b>:
+      <pre><code>npm run serve</code></pre>Mở <a href="http://localhost:5173/?wallet" target="_blank" rel="noopener">http://localhost:5173/?wallet</a> (thêm <code>?wallet</code> để chắc chắn dùng MetaMask chứ không rơi vào chế độ demo). Tài liệu này ở <code>http://localhost:5173/docs/</code>.</li>
+    <li><b>Thêm mạng Hardhat vào MetaMask:</b> bấm <i>Kết nối ví MetaMask</i> trên trang; nếu ví đang ở mạng khác, trang hiện nút <i>Chuyển sang Hardhat Local</i> và tự thêm mạng. Nếu muốn thêm tay: MetaMask → Networks → Add a custom network:
+      <div class="table-wrap"><table>
+        <tr><th>Network name</th><td>Hardhat Local</td></tr>
+        <tr><th>RPC URL</th><td><code>http://127.0.0.1:8545</code></td></tr>
+        <tr><th>Chain ID</th><td><code>31337</code></td></tr>
+        <tr><th>Currency symbol</th><td>ETH</td></tr>
+      </table></div></li>
+    <li><b>Nhập tài khoản thử vào MetaMask:</b> MetaMask → biểu tượng tài khoản → <i>Add account or hardware wallet</i> → <i>Import account</i> → dán <b>Private Key</b> lấy từ Terminal 1. Nên nhập 3 tài khoản và đổi tên cho dễ nhớ:
+      <ul>
+        <li><code>Account #0</code> → đặt tên <b>Admin</b></li>
+        <li><code>Account #1</code> → <b>An</b>, &nbsp;<code>Account #2</code> → <b>Bình</b></li>
+      </ul></li>
+  </ol>
+  <div class="card note pink">⚠️ Các private key mà Hardhat in ra là <b>khoá công khai, ai cũng biết</b>. Chỉ dùng cho mạng local. Tuyệt đối không chuyển tiền thật vào các địa chỉ đó.</div>
+  <div class="card note yellow">🔁 <b>Mỗi lần tắt/bật lại <code>npm run node</code></b>, blockchain local quay về trạng thái trống: phải chạy lại <code>npm run deploy:local</code>, và trong MetaMask vào <i>Settings → Advanced → Clear activity tab data</i> cho từng tài khoản (nếu không sẽ gặp lỗi nonce — xem mục 8).</div>
+  <div class="card note">🧪 <b>Chưa muốn cài MetaMask?</b> Mở <code>http://localhost:5173/?demo</code> để dùng chế độ demo (blockchain mô phỏng trong trình duyệt, không cần cả <code>npm run node</code>). Xem <a href="#online">mục 12</a>.</div>
+
+  <!-- ===================== 6 ===================== -->
+  <h2 id="sepolia"><span class="no">6.</span>Đưa lên testnet Sepolia</h2>
+  <p><b>Có dùng được testnet của Ethereum không? Có</b> — và nên dùng cho buổi demo chính thức: giao dịch có link Etherscan công khai để chụp vào báo cáo, giảng viên tự kiểm tra được. <b>Sepolia</b> là testnet chính thức được khuyến nghị cho ứng dụng (Chain ID <code>11155111</code>), MetaMask có sẵn.</p>
+  <ol class="steps">
+    <li><b>Bật Sepolia trong MetaMask:</b> mở danh sách mạng → bật <i>Show test networks</i> → chọn <b>Sepolia</b>.</li>
+    <li><b>Tạo ví thử nghiệm và xin Sepolia ETH miễn phí</b> từ faucet (tìm "Sepolia faucet"), ví dụ: Google Cloud Web3 Faucet, Alchemy Faucet, hoặc faucet đào PoW của pk910. Một số faucet yêu cầu đăng nhập hoặc ví có chút ETH trên mainnet; nếu cái này không được hãy thử cái khác. Nên xin cho cả ví admin lẫn 1–2 ví người dùng (khoảng 0,05 ETH cho admin là dư dùng; ví người dùng cần ít hơn).</li>
+    <li><b>Tạo file <code>.env</code></b> bằng cách sao chép <code>.env.example</code> rồi điền:
+      <pre><code>SEPOLIA_RPC_URL=https://ethereum-sepolia-rpc.publicnode.com
+PRIVATE_KEY=0x<span class="c">…khoá bí mật của ví admin thử nghiệm…</span></code></pre>
+      Lấy private key: MetaMask → Account details → <i>Show private key</i>. Có thể dùng RPC công khai như trên, hoặc đăng ký miễn phí Alchemy / Infura để ổn định hơn.</li>
+    <li><b>Deploy:</b>
+      <pre><code>npm run deploy:sepolia</code></pre>Chờ khoảng 1–2 phút. Script in ra địa chỉ 2 contract và ghi vào <code>frontend/config.js</code>. <b>Commit và push file này</b> thì bản web online cũng dùng được MetaMask với Sepolia.</li>
+    <li><b>Chạy web</b> <code>npm run serve</code>, mở trang, kết nối MetaMask ở mạng Sepolia. Từ đây mỗi thông báo giao dịch có link <i>Xem giao dịch ↗</i> dẫn tới <code>sepolia.etherscan.io</code>.</li>
+  </ol>
+  <div class="card note pink">🔐 <b>An toàn khoá:</b> file <code>.env</code> chứa khoá bí mật — không gửi cho ai, không đưa lên GitHub (đã có trong <code>.gitignore</code>). Chỉ dùng ví tạo riêng cho thử nghiệm, không dùng ví chứa tài sản thật.</div>
+  <div class="card note">
+    <b>Khác biệt so với local cần biết khi demo:</b>
+    <ul>
+      <li>Mỗi giao dịch mất khoảng <b>12–30 giây</b> mới vào khối (local thì tức thì) — hãy nói trước với người xem.</li>
+      <li>Dữ liệu <b>tồn tại vĩnh viễn</b>, không mất khi tắt máy. Muốn làm lại từ đầu thì deploy lại (sinh địa chỉ contract mới).</li>
+      <li>Local và Sepolia không giẫm lên nhau: khi mở bằng <code>localhost</code> mà có <code>config.local.js</code> (đã chạy <code>deploy:local</code>) thì trang dùng node local; xoá file đó đi nếu muốn thử Sepolia ngay trên máy.</li>
+      <li>Muốn không tạo tài sản mẫu: đặt biến môi trường <code>SEED=false</code> trước khi deploy.</li>
+    </ul>
+  </div>
+
+  <!-- ===================== 7 ===================== -->
+  <h2 id="kich-ban"><span class="no">7.</span>Kịch bản demo trước lớp (khoảng 5–7 phút)</h2>
+  <p>Chuẩn bị sẵn 3 tài khoản trong MetaMask: <b>Admin</b>, <b>An</b>, <b>Bình</b>. Deploy mới để dữ liệu sạch. Đổi tài khoản bằng cách chọn tài khoản khác trong MetaMask — trang tự tải lại.</p>
+  <div class="card note">🎭 <b>Trình bày bằng chế độ demo:</b> kịch bản y hệt, chỉ khác là đổi vai bằng thanh <i>“Đang đóng vai”</i> thay vì đổi tài khoản MetaMask, và không có cửa sổ xác nhận của ví. Bấm <i>Làm lại từ đầu</i> trước buổi trình bày để có dữ liệu sạch; dùng vai <b>Khách mới</b> cho bước đăng ký, hoặc vai <b>Chi</b> (đã đăng ký, đang chờ duyệt) cho bước duyệt.</div>
+  <ol class="steps">
+    <li><b>[An] Mở trang, kết nối ví.</b> Chỉ vào trang Tổng quan: hành trình 4 bước và 3 ô giải thích. <i>Nói:</i> "Không có tên đăng nhập hay mật khẩu — ví chính là tài khoản."</li>
+    <li><b>[An] Thử mua khi chưa xác minh.</b> Vào tab Tài sản: nút Mua bị khoá và có thông báo cần xác minh. <i>Nói:</i> "Luật này nằm trong smart contract, không phải chỉ ở giao diện."</li>
+    <li><b>[An] Đăng ký danh tính.</b> Tab Danh tính → nhập tên, số giấy tờ, ngày sinh. Chỉ vào dòng <i>Mã băm sẽ gửi đi</i>. Bấm gửi → xác nhận trong MetaMask → thẻ danh tính hiện dấu <b>CHỜ DUYỆT</b>.</li>
+    <li><b>[Admin] Duyệt hồ sơ.</b> Đổi sang ví Admin → tab Quản trị có số 1 đỏ → bấm <b>Duyệt</b>.</li>
+    <li><b>[An] Mua cổ phần.</b> Đổi lại ví An → thẻ hiện <b>ĐÃ XÁC MINH</b> → tab Tài sản → mua 100 cổ phần căn hộ. Chỉ vào thanh tiến độ, mục "Ai đang sở hữu?" và Danh mục của tôi (10%).</li>
+    <li><b>[Admin] Chia tiền thuê.</b> Tab Quản trị → Quản lý tài sản → nhập 0,05 ETH → <b>Chia</b>.</li>
+    <li><b>[An] Rút thu nhập.</b> Danh mục của tôi hiện thu nhập chờ rút → bấm <b>Rút</b> → số dư ví tăng.</li>
+    <li><b>[Bình → Admin → An] Chuyển nhượng.</b> Cho Bình đăng ký, Admin duyệt; rồi An chuyển 20 cổ phần cho Bình. (Có thể thử chuyển <i>trước</i> khi Bình được duyệt để thấy bị từ chối.)</li>
+    <li><b>[Admin] Thu hồi danh tính của Bình</b> với lý do "Giấy tờ hết hạn" → Bình không mua thêm được nữa.</li>
+    <li><b>Mở tab Nhật ký.</b> Mọi bước vừa làm đều nằm đó theo thứ tự. Trên Sepolia, bấm <i>xem giao dịch</i> để mở Etherscan. <i>Kết:</i> "Không ai, kể cả chúng em, sửa hay xoá được các dòng này."</li>
+  </ol>
+  <div class="card note green">💡 Mẹo: dùng ô <b>Tra cứu &amp; đối chiếu</b> để minh hoạ vai "bên thứ ba" — dán địa chỉ ví An, nhập đúng số giấy tờ + ngày sinh → <i>KHỚP</i>; nhập sai một số → <i>KHÔNG khớp</i>. Nút 🌐 đổi giao diện sang tiếng Anh nếu cần trình bày bằng tiếng Anh.</div>
+
+  <!-- ===================== 8 ===================== -->
+  <h2 id="loi"><span class="no">8.</span>Lỗi thường gặp</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Cách xử lý</th></tr>
+    <tr><td>Muốn dùng MetaMask nhưng trang cứ vào <i>Chế độ demo</i></td><td>Chưa deploy (chưa có <code>config.local.js</code> / <code>config.js</code> thật), hoặc trình duyệt chưa có MetaMask</td><td>Chạy <code>npm run node</code> rồi <code>npm run deploy:local</code>, cài MetaMask, mở trang với <code>?wallet</code>.</td></tr>
+    <tr><td>Chế độ demo hiện dữ liệu lạ hoặc muốn xoá sạch</td><td>Dữ liệu demo lưu trong trình duyệt (localStorage)</td><td>Bấm <b>↺ Làm lại từ đầu</b> trên thanh demo.</td></tr>
+    <tr><td>Trang báo "Không tìm thấy contract trên mạng này"</td><td>Node local vừa khởi động lại, dữ liệu cũ mất</td><td>Chạy lại <code>npm run deploy:local</code>.</td></tr>
+    <tr><td>Giao dịch treo mãi, hoặc lỗi <i>nonce too high / nonce has already been used</i></td><td>MetaMask còn nhớ lịch sử của lần chạy node trước</td><td>MetaMask → Settings → Advanced → <b>Clear activity tab data</b> (làm cho từng tài khoản).</td></tr>
+    <tr><td>Bấm nút nhưng MetaMask không bật lên</td><td>Mở trang bằng <code>file://</code>, hoặc MetaMask đang khoá</td><td>Luôn mở qua <code>http://localhost:5173</code>; mở khoá MetaMask.</td></tr>
+    <tr><td>"Ví của bạn đang ở sai mạng"</td><td>MetaMask đang chọn mạng khác</td><td>Bấm nút <i>Chuyển sang …</i> trên thanh thông báo.</td></tr>
+    <tr><td>Số dư trong MetaMask hiển thị sai trên local</td><td>MetaMask lưu cache</td><td>Đổi sang mạng khác rồi đổi lại, hoặc Clear activity tab data.</td></tr>
+    <tr><td><code>deploy:sepolia</code> báo không có network <code>sepolia</code></td><td>Thiếu file <code>.env</code> hoặc thiếu biến</td><td>Kiểm tra <code>SEPOLIA_RPC_URL</code> và <code>PRIVATE_KEY</code> (có tiền tố <code>0x</code>).</td></tr>
+    <tr><td><i>insufficient funds</i> khi deploy / giao dịch</td><td>Ví không đủ ETH trả gas</td><td>Xin thêm từ faucet.</td></tr>
+    <tr><td>Chữ không ra kiểu viết tay</td><td>Không có mạng để tải Google Fonts</td><td>Kết nối mạng; chức năng vẫn chạy bình thường với phông dự phòng.</td></tr>
+    <tr><td>Cổng 5173 hoặc 8545 đã bị chiếm</td><td>Chương trình khác đang dùng</td><td>Web: đặt biến môi trường <code>PORT=5174</code> rồi <code>npm run serve</code>. Node: tắt tiến trình Hardhat cũ.</td></tr>
+  </table></div>
+
+  <!-- ===================== 9 ===================== -->
+  <h2 id="han-che"><span class="no">9.</span>Hạn chế &amp; hướng phát triển</h2>
+  <p>Đây là demo học tập, cố ý giữ đơn giản. Nêu rõ các hạn chế dưới đây trong phần <i>Conclusion</i> sẽ cho thấy bạn hiểu vấn đề:</p>
+  <div class="grid2">
+    <div class="card pink"><h4>Hạn chế hiện tại</h4>
+      <ul>
+        <li><b>Mã băm giấy tờ chưa có "muối" (salt):</b> số CCCD có ít khả năng nên về lý thuyết có thể dò thử. Hệ thống thật dùng salt bí mật hoặc <i>zero-knowledge proof</i>.</li>
+        <li><b>Tên hiển thị và quốc gia nằm công khai trên chuỗi</b> và không xoá được — chưa phù hợp các luật bảo vệ dữ liệu cá nhân.</li>
+        <li><b>Xác minh vẫn dựa vào con người</b> (ví quản trị) kiểm tra giấy tờ ngoài đời — blockchain không tự biết giấy tờ thật hay giả.</li>
+        <li><b>Quản trị tập trung vào một ví:</b> mất khoá admin là mất quyền điều hành.</li>
+        <li><b>Token không theo chuẩn ERC</b> nên ví và sàn khác không tự nhận diện.</li>
+        <li><b>Không có thị trường thứ cấp:</b> chuyển nhượng là cho/tặng, việc thanh toán giữa hai người diễn ra ngoài hệ thống.</li>
+        <li><b>Giá cố định bằng ETH</b>, không gắn với VND/USD.</li>
+        <li><b>Tài sản thật không được ràng buộc pháp lý</b> với token.</li>
+        <li><b>Chưa được kiểm toán bảo mật</b> — không dùng cho tiền thật.</li>
+      </ul></div>
+    <div class="card green"><h4>Hướng phát triển</h4>
+      <ul>
+        <li>Dùng chuẩn <b>W3C DID + Verifiable Credentials</b>, lưu hồ sơ mã hoá trên <b>IPFS</b>, chỉ ghi hash lên chuỗi.</li>
+        <li><b>Zero-knowledge proof</b>: chứng minh "đủ 18 tuổi" mà không lộ ngày sinh.</li>
+        <li>Chuyển sang <b>ERC-1155 / ERC-3643</b> (OpenZeppelin, T-REX) để tương thích hệ sinh thái.</li>
+        <li><b>Sàn giao dịch thứ cấp</b> ngay trong contract: đặt lệnh bán, mua – thanh toán nguyên tử.</li>
+        <li><b>Multi-sig / DAO</b> cho quyền quản trị; chủ sở hữu <b>bỏ phiếu</b> theo tỷ lệ cổ phần.</li>
+        <li><b>Stablecoin</b> và <b>oracle giá</b> (Chainlink) để định giá ổn định.</li>
+        <li>Triển khai trên <b>Layer 2</b> (Arbitrum, Base, Polygon) để giảm phí gas.</li>
+        <li>Thời hạn hiệu lực cho danh tính, nhiều cấp độ xác minh (KYC cơ bản / nâng cao).</li>
+      </ul></div>
+  </div>
+
+  <!-- ===================== 10 ===================== -->
+  <h2 id="bao-cao"><span class="no">10.</span>Gợi ý dàn ý báo cáo (≥ 20 trang)</h2>
+  <p>Dàn ý bám theo thang điểm. Nếu nhóm chỉ được giao <u>một</u> trong hai đề tài, giữ phần tương ứng làm trọng tâm và trình bày phần còn lại như "tính năng tích hợp".</p>
+  <div class="table-wrap"><table>
+    <tr><th>Phần</th><th>Nội dung gợi ý</th><th>Số trang</th></tr>
+    <tr><td>Front matter</td><td>Cover, Table of Contents, List of Figures, List of Tables, Abbreviations</td><td>3</td></tr>
+    <tr><td><b>1. Introduction</b> (1.5đ)</td><td>Background &amp; motivation; problem statement (KYC rời rạc, tài sản khó chia nhỏ); objectives; scope; report structure</td><td>2–3</td></tr>
+    <tr><td><b>2. Body</b> (5đ)</td><td>
+      2.1 Blockchain fundamentals (block, hash, consensus, Ethereum, smart contract, gas)<br>
+      2.2 Digital identity: centralized vs federated vs SSI; DID, VC, KYC<br>
+      2.3 Asset tokenization: RWA, fractional ownership, token standards, benefits &amp; risks<br>
+      2.4 Related work / existing platforms (so sánh ngắn 2–3 hệ thống thật)<br>
+      2.5 System design: actors, use cases, architecture diagram, data model, state diagram<br>
+      2.6 Smart contract design: functions, access control, income distribution algorithm<br>
+      2.7 Security &amp; privacy considerations<br>
+      2.8 Testing: test cases &amp; results</td><td>11–13</td></tr>
+    <tr><td><b>3. Software demo</b> (2đ)</td><td>Tech stack; installation; ảnh chụp từng bước của kịch bản mục 7; link Etherscan (nếu dùng Sepolia)</td><td>3–4</td></tr>
+    <tr><td><b>4. Conclusion</b> (1đ)</td><td>Tổng kết kết quả; đánh giá ưu / nhược; <b>ý kiến và nhận định riêng của nhóm</b>; hướng phát triển</td><td>1–2</td></tr>
+    <tr><td>References, Appendix</td><td>Tài liệu tham khảo (Ethereum docs, W3C DID, các EIP, bài báo); mã nguồn contract</td><td>2+</td></tr>
+  </table></div>
+  <div class="card note">📌 Tiêu chí 5 (0.5đ) chỉ cần làm đúng: bật kiểm tra chính tả, dùng Heading của Word để tự sinh mục lục, đặt caption cho <u>mọi</u> hình và bảng để tự sinh List of Figures / List of Tables.</div>
+
+  <!-- ===================== 11 ===================== -->
+  <h2 id="thuat-ngu"><span class="no">11.</span>Bảng thuật ngữ</h2>
+  <div class="card">
+  <dl class="glossary">
+    <dt>ABI</dt><dd>Application Binary Interface – bảng mô tả các hàm của contract để chương trình bên ngoài gọi được.</dd>
+    <dt>Address</dt><dd>Địa chỉ ví hoặc contract, dạng <code>0x</code> + 40 ký tự hex.</dd>
+    <dt>Block</dt><dd>Khối – nhóm giao dịch được ghi cùng lúc vào blockchain.</dd>
+    <dt>Chain ID</dt><dd>Mã số phân biệt các mạng: Hardhat local = 31337, Sepolia = 11155111, Ethereum mainnet = 1.</dd>
+    <dt>dApp</dt><dd>Decentralized Application – ứng dụng có phần xử lý chính chạy bằng smart contract.</dd>
+    <dt>Deploy</dt><dd>Triển khai – đưa contract lên blockchain; sau đó contract có địa chỉ cố định.</dd>
+    <dt>DID</dt><dd>Decentralized Identifier – mã định danh do người dùng tự kiểm soát.</dd>
+    <dt>ETH / wei</dt><dd>Đồng tiền của Ethereum; 1 ETH = 10<sup>18</sup> wei. Contract tính toán bằng wei.</dd>
+    <dt>Event</dt><dd>Bản ghi nhật ký do contract phát ra, lưu vĩnh viễn trên chuỗi.</dd>
+    <dt>EVM</dt><dd>Ethereum Virtual Machine – "máy tính ảo" chạy smart contract trên mọi nút mạng.</dd>
+    <dt>Faucet</dt><dd>Trang web phát ETH thử nghiệm miễn phí cho testnet.</dd>
+    <dt>Fractional ownership</dt><dd>Sở hữu phân mảnh – nhiều người cùng sở hữu các phần của một tài sản.</dd>
+    <dt>Gas</dt><dd>Đơn vị đo công sức tính toán; phí giao dịch = gas dùng × giá gas.</dd>
+    <dt>Hardhat</dt><dd>Bộ công cụ phát triển Ethereum: biên dịch, kiểm thử, chạy blockchain local, deploy.</dd>
+    <dt>Hash</dt><dd>Mã băm – "dấu vân tay" một chiều của dữ liệu.</dd>
+    <dt>KYC</dt><dd>Know Your Customer – quy trình xác minh danh tính khách hàng theo luật.</dd>
+    <dt>MetaMask</dt><dd>Ví Ethereum dạng tiện ích trình duyệt (biểu tượng con cáo).</dd>
+    <dt>Modifier</dt><dd>Đoạn kiểm tra tái sử dụng trong Solidity, thường dùng để phân quyền.</dd>
+    <dt>Nonce</dt><dd>Số thứ tự giao dịch của một ví, dùng để chống gửi lặp.</dd>
+    <dt>Private key</dt><dd>Khoá bí mật – ai có khoá này là có toàn quyền với ví. Không bao giờ chia sẻ.</dd>
+    <dt>RPC</dt><dd>Địa chỉ máy chủ để ứng dụng "nói chuyện" với một mạng blockchain.</dd>
+    <dt>RWA</dt><dd>Real-World Asset – tài sản thật được biểu diễn bằng token.</dd>
+    <dt>Smart contract</dt><dd>Chương trình chạy trên blockchain, tự thực thi và không sửa được sau khi triển khai.</dd>
+    <dt>SSI</dt><dd>Self-Sovereign Identity – danh tính tự chủ, người dùng tự giữ và tự quyết định chia sẻ.</dd>
+    <dt>Testnet</dt><dd>Mạng thử nghiệm, tiền không có giá trị thật.</dd>
+    <dt>Token</dt><dd>Đơn vị giá trị số do smart contract quản lý.</dd>
+    <dt>Transaction</dt><dd>Giao dịch – yêu cầu thay đổi trạng thái blockchain, được ký bằng khoá bí mật.</dd>
+  </dl>
+  </div>
+
+  <!-- ===================== 12 ===================== -->
+  <h2 id="online"><span class="no">12.</span>Chế độ demo &amp; bản online</h2>
+  <h3>12.1. Ba cách chạy, cùng một giao diện</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Cách chạy</th><th>Blockchain nằm ở đâu</th><th>Cần gì</th><th>Dùng khi nào</th></tr>
+    <tr><td>🎭 <b>Chế độ demo</b></td><td>Mô phỏng <b>trong trình duyệt</b> của người xem</td><td>Chỉ cần mở trang web</td><td>Xem nhanh, cho người khác thử, dự phòng khi mất mạng / lỗi ví</td></tr>
+    <tr><td>🖥️ <b>Local + MetaMask</b></td><td>Node Hardhat trên máy bạn</td><td>Node.js, MetaMask</td><td>Phát triển, tập dượt</td></tr>
+    <tr><td>🌍 <b>Sepolia + MetaMask</b></td><td>Testnet công khai của Ethereum</td><td>MetaMask, Sepolia ETH</td><td>Buổi demo chính thức, có link Etherscan</td></tr>
+  </table></div>
+  <p>Trang tự chọn chế độ: có contract thật <i>và</i> có MetaMask → dùng ví thật; ngược lại → chế độ demo. Ép bằng địa chỉ: thêm <code>?demo</code> (hoặc <code>?demo=0</code> để vào thẳng vai Quản trị, <code>?demo=4</code> cho Khách mới) hay <code>?wallet</code>.</p>
+
+  <h3>12.2. Chế độ demo hoạt động thế nào?</h3>
+  <ul>
+    <li>Trang nạp một <b>máy ảo Ethereum thật</b> (thư viện <code>@ethereumjs/vm</code>) chạy bằng JavaScript. <b>Đúng 2 smart contract ở mục 4</b> được triển khai vào máy ảo đó, nên mọi quy tắc (phải xác minh mới được mua, chia thu nhập theo tỷ lệ…) chạy y như trên mạng thật.</li>
+    <li>Một “chiếc ví” giả lập đóng vai MetaMask với 5 tài khoản có sẵn 10.000 ETH thử nghiệm; giao dịch được ký và ghi vào khối ngay lập tức, không hỏi xác nhận.</li>
+    <li>Lịch sử giao dịch được lưu trong <code>localStorage</code> của trình duyệt và <b>phát lại</b> mỗi khi tải trang, nên dữ liệu vẫn còn khi bạn quay lại. Mỗi người xem có một “blockchain” riêng, không ảnh hưởng nhau.</li>
+  </ul>
+  <div class="card note pink">⚠️ <b>Nói rõ khi trình bày:</b> chế độ demo <u>không phải blockchain thật</u> — chỉ có một máy (trình duyệt của bạn), không có mạng lưới, không có đồng thuận, và bạn tự xoá được dữ liệu. Nó chứng minh <i>logic của smart contract</i>; còn tính bất biến và phi tập trung chỉ có khi chạy trên Sepolia. Nên demo chính bằng Sepolia + MetaMask và dùng chế độ demo làm phương án dự phòng.</div>
+
+  <h3>12.3. Đưa web lên internet bằng GitHub Pages</h3>
+  <p>Trang web chỉ gồm file tĩnh trong <code>frontend/</code> và <code>docs/</code>, nên host miễn phí được trên GitHub Pages. Repo đã có sẵn workflow <code>.github/workflows/pages.yml</code>: mỗi lần push lên nhánh <code>main</code>, GitHub tự gom hai thư mục đó và xuất bản.</p>
+  <ol class="steps">
+    <li>Tạo một repo trên GitHub và push toàn bộ project lên nhánh <code>main</code>.</li>
+    <li>Vào repo → <b>Settings → Pages → Build and deployment → Source</b>, chọn <b>GitHub Actions</b> (chỉ làm một lần).</li>
+    <li>Mở tab <b>Actions</b>, chờ workflow <i>Deploy to GitHub Pages</i> chạy xong (khoảng 1 phút). Địa chỉ trang có dạng <code>https://&lt;tên-tài-khoản&gt;.github.io/&lt;tên-repo&gt;/</code>; tài liệu ở <code>…/docs/</code>.</li>
+    <li>Sau này sửa gì chỉ cần commit và push, trang tự cập nhật. Nếu sửa contract, chạy <code>npm run build:web</code> trước khi commit để cập nhật <code>frontend/contracts.js</code>.</li>
+  </ol>
+  <div class="card note">
+    <ul>
+      <li>Khi chưa deploy Sepolia, bản online chạy ở <b>chế độ demo</b> cho mọi người xem.</li>
+      <li>Sau khi chạy <code>npm run deploy:sepolia</code> và push <code>frontend/config.js</code>, người có MetaMask sẽ dùng contract thật trên Sepolia; người không có ví vẫn xem được bằng chế độ demo.</li>
+      <li>Repo công khai thì ai cũng đọc được mã nguồn — <b>không bao giờ commit file <code>.env</code></b> (đã nằm trong <code>.gitignore</code>).</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:40px;color:#6b6862;font-size:.9rem">Demo phục vụ mục đích học tập cho môn INS3212. Không dùng cho tài sản hay dữ liệu cá nhân thật.</p>
+</main>
+</div>
+</body>
+</html>
