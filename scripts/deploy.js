@@ -33,7 +33,9 @@ async function main() {
 
   if (process.env.SEED !== "false") {
     for (const [name, category, description, shares, price] of SAMPLE_ASSETS) {
-      await (await token.createAsset(name, category, description, shares, ethers.parseEther(price))).wait();
+      // Trên testnet công khai, ETH xin từ faucet rất ít nên giá mẫu được chia 200 lần
+      const wei = chainId === 31337 ? ethers.parseEther(price) : ethers.parseEther(price) / 200n;
+      await (await token.createAsset(name, category, description, shares, wei)).wait();
       console.log(`  + Tài sản mẫu: ${name}`);
     }
   }

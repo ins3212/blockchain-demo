@@ -1,0 +1,92 @@
+{
+  "network": "Sepolia Testnet",
+  "chainId": 11155111,
+  "identityRegistry": "0x817E877BE51c3af1c29db815d30cBA73DBcbc8A2",
+  "assetToken": "0x9F28963e48D717684dd905d1eE34426e44eD0ac5",
+  "admin": "0x1d97D1e3901075A3af838bd930BE29261b9c5b25",
+  "an": "0x2aCfa185F24a83cC3A84401BFF41Da3F17cd9a53",
+  "binh": "0x6333Ab08418fBE697f662641A95189173ac60787",
+  "unverifiedBuyRejectedWith": "execution reverted: Identity not verified",
+  "state": {
+    "anVerified": true,
+    "binhVerified": true,
+    "anShares": 100,
+    "binhShares": 100,
+    "sharesSold": 200,
+    "totalIncomeEth": "0.001",
+    "binhClaimableEth": "0.0"
+  },
+  "transactions": [
+    {
+      "step": "Admin cấp 0,005 ETH thử nghiệm cho ví An",
+      "hash": "0x2af6eb874013d176190352c7bcc6fe032e9712c428e931671d60db551aa01cf2",
+      "block": 12174398,
+      "url": "https://sepolia.etherscan.io/tx/0x2af6eb874013d176190352c7bcc6fe032e9712c428e931671d60db551aa01cf2"
+    },
+    {
+      "step": "Admin cấp 0,005 ETH thử nghiệm cho ví Bình",
+      "hash": "0x033a2961ac3f4506a2b2d1eeebe92b22c4bdd1038cafaf9c1b1510ba81b4697c",
+      "block": 12174399,
+      "url": "https://sepolia.etherscan.io/tx/0x033a2961ac3f4506a2b2d1eeebe92b22c4bdd1038cafaf9c1b1510ba81b4697c"
+    },
+    {
+      "step": "An đăng ký danh tính",
+      "hash": "0x670d0e82924a11047867290fd456946ad18eb17ae068f8e079e3ad48aa440e31",
+      "block": 12174400,
+      "url": "https://sepolia.etherscan.io/tx/0x670d0e82924a11047867290fd456946ad18eb17ae068f8e079e3ad48aa440e31"
+    },
+    {
+      "step": "Bình đăng ký danh tính",
+      "hash": "0xba332c1bad6098ccfa7bbd0e17852093d62cda119fdd4615b6a117addc3de841",
+      "block": 12174401,
+      "url": "https://sepolia.etherscan.io/tx/0xba332c1bad6098ccfa7bbd0e17852093d62cda119fdd4615b6a117addc3de841"
+    },
+    {
+      "step": "Admin xác minh danh tính của An",
+      "hash": "0xe1758a3230065149c21d15eb9691b66ce2d54dd5bf70a1702daff874315bae5c",
+      "block": 12174403,
+      "url": "https://sepolia.etherscan.io/tx/0xe1758a3230065149c21d15eb9691b66ce2d54dd5bf70a1702daff874315bae5c"
+    },
+    {
+      "step": "Admin xác minh danh tính của Bình",
+      "hash": "0x1c608bce951132fe64d9842d4f48937eaa051a41fccabeaa3cbd67d9be93a0cc",
+      "block": 12174404,
+      "url": "https://sepolia.etherscan.io/tx/0x1c608bce951132fe64d9842d4f48937eaa051a41fccabeaa3cbd67d9be93a0cc"
+    },
+    {
+      "step": "An mua 120 cổ phần căn hộ",
+      "hash": "0x94a2b3388cff640942c95ced0c0b5a3d2fc1cdb7c8515b2a0eeef1db12feacde",
+      "block": 12174405,
+      "url": "https://sepolia.etherscan.io/tx/0x94a2b3388cff640942c95ced0c0b5a3d2fc1cdb7c8515b2a0eeef1db12feacde"
+    },
+    {
+      "step": "Bình mua 80 cổ phần căn hộ",
+      "hash": "0x84f35029cc1065fa9120c4c37f737db281664d76e25f09f3572195189db8f41d",
+      "block": 12174406,
+      "url": "https://sepolia.etherscan.io/tx/0x84f35029cc1065fa9120c4c37f737db281664d76e25f09f3572195189db8f41d"
+    },
+    {
+      "step": "Admin chia 0,001 ETH thu nhập cho thuê",
+      "hash": "0x94a88d9940f756c59d26e752dd8971d96af6765264b647494c4695deb818f0bd",
+      "block": 12174407,
+      "url": "https://sepolia.etherscan.io/tx/0x94a88d9940f756c59d26e752dd8971d96af6765264b647494c4695deb818f0bd"
+    },
+    {
+      "step": "An chuyển nhượng 20 cổ phần cho Bình",
+      "hash": "0x1c399dab8e727aded002a5b8feac20172f4c2f6020e9d989b09c7ccc5db4a3e3",
+      "block": 12174409,
+      "url": "https://sepolia.etherscan.io/tx/0x1c399dab8e727aded002a5b8feac20172f4c2f6020e9d989b09c7ccc5db4a3e3"
+    },
+    {
+      "step": "An rút thu nhập được chia",
+      "hash": "0xbc4dd538f4a83f81787f76970a8489c9f990d50af341c0a4c30356f667a15f15",
+      "block": 12174410,
+      "url": "https://sepolia.etherscan.io/tx/0xbc4dd538f4a83f81787f76970a8489c9f990d50af341c0a4c30356f667a15f15"
+    },
+    {
+      "step": "Bình rút thu nhập — gửi từ nút bấm trên giao diện web",
+      "hash": "0x7490e26f6bb4c9c8e24009d3084a956c10d3d49069f9b29bb7de4de0c098ed38",
+      "url": "https://sepolia.etherscan.io/tx/0x7490e26f6bb4c9c8e24009d3084a956c10d3d49069f9b29bb7de4de0c098ed38"
+    }
+  ]
+}

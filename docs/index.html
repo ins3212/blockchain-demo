@@ -479,7 +479,7 @@ PRIVATE_KEY=0x<span class="c">…khoá bí mật của ví admin thử nghiệm�
       <pre><code>npm run deploy:sepolia</code></pre>Chờ khoảng 1–2 phút. Script in ra địa chỉ 2 contract và ghi vào <code>frontend/config.js</code>. <b>Commit và push file này</b> thì bản web online cũng dùng được MetaMask với Sepolia.</li>
     <li><b>Chạy web</b> <code>npm run serve</code>, mở trang, kết nối MetaMask ở mạng Sepolia. Từ đây mỗi thông báo giao dịch có link <i>Xem giao dịch ↗</i> dẫn tới <code>sepolia.etherscan.io</code>.</li>
   </ol>
-  <div class="card note pink">🔐 <b>An toàn khoá:</b> file <code>.env</code> chứa khoá bí mật — không gửi cho ai, không đưa lên GitHub (đã có trong <code>.gitignore</code>). Chỉ dùng ví tạo riêng cho thử nghiệm, không dùng ví chứa tài sản thật.</div>
+  <div class="card note pink">🔐 <b>An toàn khoá:</b> file <code>.env</code> chứa khoá bí mật. Với dự án thật: không gửi cho ai và không đưa lên GitHub. Riêng repo demo này cố ý công khai <code>.env</code> của ví thử nghiệm (xem mục 6.1). Chỉ dùng ví tạo riêng cho thử nghiệm, không dùng ví chứa tài sản thật.</div>
   <div class="card note">
     <b>Khác biệt so với local cần biết khi demo:</b>
     <ul>
@@ -489,6 +489,43 @@ PRIVATE_KEY=0x<span class="c">…khoá bí mật của ví admin thử nghiệm�
       <li>Muốn không tạo tài sản mẫu: đặt biến môi trường <code>SEED=false</code> trước khi deploy.</li>
     </ul>
   </div>
+
+  <h3 id="sepolia-live">6.1. Bản đang chạy thật trên Sepolia</h3>
+  <p>Hai contract của demo <b>đã được triển khai lên Sepolia</b> và trang online đã nối với chúng: ai mở trang bằng trình duyệt có MetaMask (mạng Sepolia) sẽ gửi giao dịch thật; ai không có ví thì trang tự dùng chế độ demo.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Thành phần</th><th>Địa chỉ trên Sepolia (bấm để mở Etherscan)</th></tr>
+    <tr><td>Contract <b>IdentityRegistry</b></td><td><a href="https://sepolia.etherscan.io/address/0x817E877BE51c3af1c29db815d30cBA73DBcbc8A2" target="_blank" rel="noopener"><code>0x817E877BE51c3af1c29db815d30cBA73DBcbc8A2</code></a></td></tr>
+    <tr><td>Contract <b>AssetToken</b></td><td><a href="https://sepolia.etherscan.io/address/0x9F28963e48D717684dd905d1eE34426e44eD0ac5" target="_blank" rel="noopener"><code>0x9F28963e48D717684dd905d1eE34426e44eD0ac5</code></a></td></tr>
+    <tr><td>Ví <b>Quản trị</b> (<code>PRIVATE_KEY</code>)</td><td><a href="https://sepolia.etherscan.io/address/0x1d97D1e3901075A3af838bd930BE29261b9c5b25" target="_blank" rel="noopener"><code>0x1d97D1e3901075A3af838bd930BE29261b9c5b25</code></a></td></tr>
+    <tr><td>Ví <b>An</b> (<code>USER_AN_KEY</code>)</td><td><a href="https://sepolia.etherscan.io/address/0x2aCfa185F24a83cC3A84401BFF41Da3F17cd9a53" target="_blank" rel="noopener"><code>0x2aCfa185F24a83cC3A84401BFF41Da3F17cd9a53</code></a></td></tr>
+    <tr><td>Ví <b>Bình</b> (<code>USER_BINH_KEY</code>)</td><td><a href="https://sepolia.etherscan.io/address/0x6333Ab08418fBE697f662641A95189173ac60787" target="_blank" rel="noopener"><code>0x6333Ab08418fBE697f662641A95189173ac60787</code></a></td></tr>
+  </table></div>
+  <p>Kịch bản mẫu đã được chạy bằng giao dịch thật (lệnh <code>npx hardhat run scripts/sepolia-scenario.js --network sepolia</code>). Mỗi dòng dưới đây là một giao dịch tra cứu được công khai:</p>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>Việc đã làm</th><th>Giao dịch</th></tr>
+    <tr><td>1</td><td>Admin cấp 0,005 ETH thử nghiệm cho ví An</td><td><a href="https://sepolia.etherscan.io/tx/0x2af6eb874013d176190352c7bcc6fe032e9712c428e931671d60db551aa01cf2" target="_blank" rel="noopener"><code>0x2af6eb874013…</code></a></td></tr>
+    <tr><td>2</td><td>Admin cấp 0,005 ETH thử nghiệm cho ví Bình</td><td><a href="https://sepolia.etherscan.io/tx/0x033a2961ac3f4506a2b2d1eeebe92b22c4bdd1038cafaf9c1b1510ba81b4697c" target="_blank" rel="noopener"><code>0x033a2961ac3f…</code></a></td></tr>
+    <tr><td>3</td><td>An đăng ký danh tính</td><td><a href="https://sepolia.etherscan.io/tx/0x670d0e82924a11047867290fd456946ad18eb17ae068f8e079e3ad48aa440e31" target="_blank" rel="noopener"><code>0x670d0e82924a…</code></a></td></tr>
+    <tr><td>4</td><td>Bình đăng ký danh tính</td><td><a href="https://sepolia.etherscan.io/tx/0xba332c1bad6098ccfa7bbd0e17852093d62cda119fdd4615b6a117addc3de841" target="_blank" rel="noopener"><code>0xba332c1bad60…</code></a></td></tr>
+    <tr><td>5</td><td>Admin xác minh danh tính của An</td><td><a href="https://sepolia.etherscan.io/tx/0xe1758a3230065149c21d15eb9691b66ce2d54dd5bf70a1702daff874315bae5c" target="_blank" rel="noopener"><code>0xe1758a323006…</code></a></td></tr>
+    <tr><td>6</td><td>Admin xác minh danh tính của Bình</td><td><a href="https://sepolia.etherscan.io/tx/0x1c608bce951132fe64d9842d4f48937eaa051a41fccabeaa3cbd67d9be93a0cc" target="_blank" rel="noopener"><code>0x1c608bce9511…</code></a></td></tr>
+    <tr><td>7</td><td>An mua 120 cổ phần căn hộ</td><td><a href="https://sepolia.etherscan.io/tx/0x94a2b3388cff640942c95ced0c0b5a3d2fc1cdb7c8515b2a0eeef1db12feacde" target="_blank" rel="noopener"><code>0x94a2b3388cff…</code></a></td></tr>
+    <tr><td>8</td><td>Bình mua 80 cổ phần căn hộ</td><td><a href="https://sepolia.etherscan.io/tx/0x84f35029cc1065fa9120c4c37f737db281664d76e25f09f3572195189db8f41d" target="_blank" rel="noopener"><code>0x84f35029cc10…</code></a></td></tr>
+    <tr><td>9</td><td>Admin chia 0,001 ETH thu nhập cho thuê</td><td><a href="https://sepolia.etherscan.io/tx/0x94a88d9940f756c59d26e752dd8971d96af6765264b647494c4695deb818f0bd" target="_blank" rel="noopener"><code>0x94a88d9940f7…</code></a></td></tr>
+    <tr><td>10</td><td>An chuyển nhượng 20 cổ phần cho Bình</td><td><a href="https://sepolia.etherscan.io/tx/0x1c399dab8e727aded002a5b8feac20172f4c2f6020e9d989b09c7ccc5db4a3e3" target="_blank" rel="noopener"><code>0x1c399dab8e72…</code></a></td></tr>
+    <tr><td>11</td><td>An rút thu nhập được chia</td><td><a href="https://sepolia.etherscan.io/tx/0xbc4dd538f4a83f81787f76970a8489c9f990d50af341c0a4c30356f667a15f15" target="_blank" rel="noopener"><code>0xbc4dd538f4a8…</code></a></td></tr>
+    <tr><td>12</td><td>Bình rút thu nhập — gửi từ nút bấm trên giao diện web</td><td><a href="https://sepolia.etherscan.io/tx/0x7490e26f6bb4c9c8e24009d3084a956c10d3d49069f9b29bb7de4de0c098ed38" target="_blank" rel="noopener"><code>0x7490e26f6bb4…</code></a></td></tr>
+    </table></div>
+  <p>Ngoài ra, trước khi An đăng ký, lệnh mua thử của ví An đã bị contract từ chối với lý do <code>Identity not verified</code> — đúng quy tắc “chưa xác minh thì không được mua”.</p>
+  <h4>Dùng MetaMask với bản Sepolia này</h4>
+  <ol class="steps">
+    <li>Cài extension MetaMask, bật <i>Show test networks</i> và chọn mạng <b>Sepolia</b>.</li>
+    <li>Mở file <code>.env</code> trong repo, chép giá trị <code>PRIVATE_KEY</code> (Quản trị), <code>USER_AN_KEY</code>, <code>USER_BINH_KEY</code> rồi nhập từng khoá vào MetaMask bằng <i>Import account</i>. Ba ví này đã có sẵn một ít Sepolia ETH.</li>
+    <li>Mở trang demo, bấm <i>Kết nối ví MetaMask</i>. Mỗi thao tác sẽ bật cửa sổ MetaMask để xác nhận, mất khoảng 12–30 giây để vào khối, và thông báo có link <i>Xem giao dịch ↗</i> tới Etherscan.</li>
+    <li>Muốn đóng vai một người hoàn toàn mới: tạo tài khoản mới trong MetaMask, chuyển cho nó ~0,002 Sepolia ETH từ ví Quản trị, rồi đăng ký danh tính.</li>
+  </ol>
+  <div class="card note pink">⚠️ File <code>.env</code> của repo này <b>được công khai có chủ đích</b> vì đây là ví thử nghiệm chỉ chứa ETH testnet. Hệ quả: bất kỳ ai cũng có thể dùng ví Quản trị để duyệt / thu hồi danh tính hoặc rút hết ETH thử nghiệm. Nếu dữ liệu bị phá trước buổi trình bày: tạo ví mới, xin faucet, sửa <code>PRIVATE_KEY</code> và chạy lại <code>npm run deploy:sepolia</code> (sinh contract mới, dữ liệu sạch). <b>Tuyệt đối không dùng các khoá này cho tiền thật.</b></div>
+  <div class="card note">Giá cổ phần của tài sản mẫu trên Sepolia được đặt rất nhỏ (0,00001–0,000025 ETH) để vừa với lượng ETH xin được từ faucet.</div>
 
   <!-- ===================== 7 ===================== -->
   <h2 id="kich-ban"><span class="no">7.</span>Kịch bản demo trước lớp (khoảng 5–7 phút)</h2>
@@ -639,9 +676,9 @@ PRIVATE_KEY=0x<span class="c">…khoá bí mật của ví admin thử nghiệm�
   </ol>
   <div class="card note">
     <ul>
-      <li>Khi chưa deploy Sepolia, bản online chạy ở <b>chế độ demo</b> cho mọi người xem.</li>
+      <li>Bản online hiện đã nối với contract thật trên Sepolia (mục 6.1); người không có ví vẫn xem bằng <b>chế độ demo</b>.</li>
       <li>Sau khi chạy <code>npm run deploy:sepolia</code> và push <code>frontend/config.js</code>, người có MetaMask sẽ dùng contract thật trên Sepolia; người không có ví vẫn xem được bằng chế độ demo.</li>
-      <li>Repo công khai thì ai cũng đọc được mã nguồn — <b>không bao giờ commit file <code>.env</code></b> (đã nằm trong <code>.gitignore</code>).</li>
+      <li>Repo công khai thì ai cũng đọc được mã nguồn, kể cả file <code>.env</code> mà repo này cố ý công khai — vì vậy chỉ để ví thử nghiệm trong đó (xem mục 6.1).</li>
     </ul>
   </div>
 

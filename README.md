@@ -29,6 +29,10 @@ Sao chép `.env.example` thành `.env`, điền `SEPOLIA_RPC_URL` và `PRIVATE_K
 Sepolia ETH), chạy `npm run deploy:sepolia`, rồi commit `frontend/config.js` để bản online dùng được
 MetaMask với Sepolia.
 
+Bản đang chạy trên Sepolia: IdentityRegistry `0x817E877BE51c3af1c29db815d30cBA73DBcbc8A2`, AssetToken `0x9F28963e48D717684dd905d1eE34426e44eD0ac5`.
+Danh sách giao dịch mẫu: `docs/sepolia-transactions.json`. File `.env` (ví thử nghiệm, chỉ có ETH testnet)
+được công khai có chủ đích để tiện nhập vào MetaMask — không dùng các khoá này cho tiền thật.
+
 ## Tài liệu
 
 `docs/index.html`: đề bài, lý thuyết, kiến trúc, giải thích contract, cài MetaMask, deploy Sepolia,
