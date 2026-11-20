@@ -3,7 +3,7 @@
 Demo cho hai đề tài: **Topic 4 – Blockchain-based Identity Management System** và
 **Topic 3 – Blockchain technology for tokenizing and managing assets**.
 
-Solidity + Hardhat + ethers.js + MetaMask, giao diện HTML/JS thuần phong cách vẽ tay (Việt/Anh).
+Solidity + Hardhat + ethers.js + MetaMask, giao diện HTML/JS thuần, tối giản, chạy tốt trên điện thoại lẫn máy tính (sáng/tối, Việt/Anh).
 
 ## Xem ngay, không cần cài gì
 
