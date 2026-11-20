@@ -113,7 +113,7 @@
   <a href="#thuc-hien">4. Thực hiện ra sao</a>
   <a href="#cai-dat">5. Cài đặt &amp; chạy (local)</a>
   <a href="#sepolia">6. Đưa lên testnet Sepolia</a>
-  <a href="#kich-ban">7. Kịch bản demo trước lớp</a>
+  <a href="#kich-ban">7. Hướng dẫn sử dụng &amp; demo</a>
   <a href="#loi">8. Lỗi thường gặp</a>
   <a href="#han-che">9. Hạn chế &amp; hướng phát triển</a>
   <a href="#bao-cao">10. Gợi ý dàn ý báo cáo</a>
@@ -161,7 +161,7 @@
     <tr><td>1</td><td>Introduction – giới thiệu tổng quan đề tài</td><td>1.5</td><td>Mục 2 (lý thuyết), mục 3 (bài toán &amp; ý tưởng)</td></tr>
     <tr><td>2</td><td>Body – các nội dung chính, chia đề mục rõ ràng</td><td>5</td><td>Mục 2, 3, 4 và dàn ý ở mục 10</td></tr>
     <tr><td>3</td><td>Conclusion – tổng hợp, đánh giá, ý kiến cá nhân</td><td>1</td><td>Mục 9 (hạn chế, hướng phát triển) là chất liệu để viết nhận định riêng</td></tr>
-    <tr><td>4</td><td><b>Software demo</b></td><td>2</td><td>Toàn bộ project này + kịch bản ở mục 7</td></tr>
+    <tr><td>4</td><td><b>Software demo</b></td><td>2</td><td>Toàn bộ project này + hướng dẫn và ví dụ ở mục 7</td></tr>
     <tr><td>5</td><td>Trình bày: không lỗi chính tả, có mục lục, danh mục hình, bảng</td><td>0.5</td><td>Ảnh chụp màn hình trong <code>docs/img</code> dùng làm hình minh hoạ</td></tr>
   </table></div>
   <div class="card note pink">⚠️ Báo cáo phải do nhóm tự viết bằng lời của mình (và bằng tiếng Anh nếu lớp yêu cầu). Tài liệu này là phần giải thích để bạn <b>hiểu</b> hệ thống trước khi viết, không phải bản báo cáo nộp sẵn.</div>
@@ -528,22 +528,106 @@ PRIVATE_KEY=0x<span class="c">…khoá bí mật của ví admin thử nghiệm�
   <div class="card note">Giá cổ phần của tài sản mẫu trên Sepolia được đặt rất nhỏ (0,00001–0,000025 ETH) để vừa với lượng ETH xin được từ faucet.</div>
 
   <!-- ===================== 7 ===================== -->
-  <h2 id="kich-ban"><span class="no">7.</span>Kịch bản demo trước lớp (khoảng 5–7 phút)</h2>
-  <p>Chuẩn bị sẵn 3 tài khoản trong MetaMask: <b>Admin</b>, <b>An</b>, <b>Bình</b>. Deploy mới để dữ liệu sạch. Đổi tài khoản bằng cách chọn tài khoản khác trong MetaMask — trang tự tải lại.</p>
-  <div class="card note">🎭 <b>Trình bày bằng chế độ demo:</b> kịch bản y hệt, chỉ khác là đổi vai bằng thanh <i>“Đang đóng vai”</i> thay vì đổi tài khoản MetaMask, và không có cửa sổ xác nhận của ví. Bấm <i>Làm lại từ đầu</i> trước buổi trình bày để có dữ liệu sạch; dùng vai <b>Khách mới</b> cho bước đăng ký, hoặc vai <b>Chi</b> (đã đăng ký, đang chờ duyệt) cho bước duyệt.</div>
-  <ol class="steps">
-    <li><b>[An] Mở trang, kết nối ví.</b> Chỉ vào trang Tổng quan: hành trình 4 bước và 3 ô giải thích. <i>Nói:</i> "Không có tên đăng nhập hay mật khẩu — ví chính là tài khoản."</li>
-    <li><b>[An] Thử mua khi chưa xác minh.</b> Vào tab Tài sản: nút Mua bị khoá và có thông báo cần xác minh. <i>Nói:</i> "Luật này nằm trong smart contract, không phải chỉ ở giao diện."</li>
-    <li><b>[An] Đăng ký danh tính.</b> Tab Danh tính → nhập tên, số giấy tờ, ngày sinh. Chỉ vào dòng <i>Mã băm sẽ gửi đi</i>. Bấm gửi → xác nhận trong MetaMask → thẻ danh tính hiện nhãn <b>Chờ duyệt</b>.</li>
-    <li><b>[Admin] Duyệt hồ sơ.</b> Đổi sang ví Admin → tab Quản trị có số 1 → bấm <b>Duyệt</b>.</li>
-    <li><b>[An] Mua cổ phần.</b> Đổi lại ví An → thẻ hiện nhãn <b>Đã xác minh</b> → tab Tài sản → mua 100 cổ phần căn hộ. Chỉ vào thanh tiến độ, mục "Ai đang sở hữu?" và Danh mục của tôi (10%).</li>
-    <li><b>[Admin] Chia tiền thuê.</b> Tab Quản trị → Quản lý tài sản → nhập 0,05 ETH → <b>Chia</b>.</li>
-    <li><b>[An] Rút thu nhập.</b> Danh mục của tôi hiện thu nhập chờ rút → bấm <b>Rút</b> → số dư ví tăng.</li>
-    <li><b>[Bình → Admin → An] Chuyển nhượng.</b> Cho Bình đăng ký, Admin duyệt; rồi An chuyển 20 cổ phần cho Bình. (Có thể thử chuyển <i>trước</i> khi Bình được duyệt để thấy bị từ chối.)</li>
-    <li><b>[Admin] Thu hồi danh tính của Bình</b> với lý do "Giấy tờ hết hạn" → Bình không mua thêm được nữa.</li>
-    <li><b>Mở tab Nhật ký.</b> Mọi bước vừa làm đều nằm đó theo thứ tự. Trên Sepolia, bấm <i>xem giao dịch</i> để mở Etherscan. <i>Kết:</i> "Không ai, kể cả chúng em, sửa hay xoá được các dòng này."</li>
-  </ol>
-  <div class="card note green">💡 Mẹo: dùng ô <b>Tra cứu &amp; đối chiếu</b> để minh hoạ vai "bên thứ ba" — dán địa chỉ ví An, nhập đúng số giấy tờ + ngày sinh → <i>KHỚP</i>; nhập sai một số → <i>KHÔNG khớp</i>. Nút <b>EN / VI</b> ở góc trên đổi ngôn ngữ giao diện; nút mặt trời / mặt trăng đổi nền sáng / tối (nền sáng dễ nhìn hơn trên máy chiếu).</div>
+  <h2 id="kich-ban"><span class="no">7.</span>Hướng dẫn sử dụng &amp; kịch bản demo</h2>
+  <p>Mục này là “cầm tay chỉ việc”: mở trang nào, đóng vai ai, nhập gì, bấm gì và phải thấy kết quả gì. Mọi ví dụ đều đã được chạy thử và cho đúng các con số ghi bên dưới.</p>
+
+  <h3>7.1. Chọn cách chạy khi trình bày</h3>
+  <div class="table-wrap"><table>
+    <tr><th></th><th>Chế độ demo</th><th>MetaMask + Sepolia</th></tr>
+    <tr><td><b>Mở bằng</b></td><td><a href="../?demo">trang demo + <code>?demo</code></a></td><td><a href="../?wallet">trang demo + <code>?wallet</code></a>, trình duyệt có MetaMask</td></tr>
+    <tr><td><b>Đổi vai</b></td><td>Bấm tên vai trên thanh <i>“Đang đóng vai”</i></td><td>Đổi tài khoản trong MetaMask (trang tự tải lại)</td></tr>
+    <tr><td><b>Mỗi thao tác</b></td><td>Xong ngay, không hỏi xác nhận</td><td>Bật cửa sổ MetaMask → bấm <i>Confirm</i> → chờ 12–30 giây</td></tr>
+    <tr><td><b>Bằng chứng</b></td><td>Tab Nhật ký</td><td>Tab Nhật ký + link Etherscan công khai</td></tr>
+    <tr><td><b>Rủi ro</b></td><td>Gần như không có</td><td>Phụ thuộc mạng, ví, ETH thử nghiệm</td></tr>
+    <tr><td><b>Nên dùng khi</b></td><td>Tập dượt; giải thích ý tưởng; phương án dự phòng</td><td>Phần “chứng minh là blockchain thật” trong buổi chính thức</td></tr>
+  </table></div>
+  <div class="card green"><b>Gợi ý cách phối hợp (khoảng 6–8 phút):</b> đi hết kịch bản ở mục 7.3 bằng <b>chế độ demo</b> cho nhanh và mượt, sau đó chuyển sang <b>MetaMask + Sepolia</b> làm <u>một</u> giao dịch thật (ví dụ An mua thêm 5 cổ phần) và mở link Etherscan của nó. Như vậy vừa không sợ kẹt mạng, vừa có bằng chứng trên chuỗi.</div>
+
+  <h3>7.2. Chuẩn bị trước buổi trình bày</h3>
+  <ul>
+    <li>Mở sẵn 2 thẻ trình duyệt: trang demo và tài liệu này. Phóng to trình duyệt 110–125% cho người ngồi xa; chọn <b>nền sáng</b> (nút mặt trăng / mặt trời) vì dễ nhìn trên máy chiếu.</li>
+    <li><b>Chế độ demo:</b> bấm <i>Làm lại từ đầu</i> để về dữ liệu mẫu ban đầu (An, Bình đã xác minh và có cổ phần căn hộ; Chi đang chờ duyệt; Khách mới chưa đăng ký).</li>
+    <li><b>MetaMask + Sepolia:</b> nhập sẵn 3 ví Quản trị / An / Bình (mục 6.1), đặt tên tài khoản cho dễ nhận, kiểm tra mỗi ví còn ETH thử nghiệm, và thử trước một giao dịch.</li>
+    <li>Mở sẵn trang Etherscan của contract <code>AssetToken</code> (link ở mục 6.1) để chiếu khi cần.</li>
+    <li>Chụp màn hình các bước quan trọng từ trước, phòng khi mất mạng.</li>
+  </ul>
+
+  <h3>7.3. Kịch bản từng bước, kèm ví dụ</h3>
+  <p>Các bước dưới đây viết cho <b>chế độ demo</b> với vai <b>Khách mới</b> (một người chưa từng dùng hệ thống). Dùng MetaMask thì làm y hệt, chỉ thay “bấm vai” bằng “đổi tài khoản trong MetaMask” và bấm <i>Confirm</i> sau mỗi thao tác; số ETH trên Sepolia nhỏ hơn 200 lần (xem ghi chú cuối bảng).</p>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>Vai</th><th>Thao tác &amp; dữ liệu ví dụ</th><th>Kết quả phải thấy</th><th>Nên nói gì</th></tr>
+    <tr><td>1</td><td>Khách mới</td><td>Bấm vai <b>Khách mới</b> → tab <b>Tổng quan</b>.</td><td>Hành trình 4 bước: bước 1 đã xong, bước 2 đang chờ có nút <i>Đăng ký ngay</i>.</td><td>“Không có tên đăng nhập hay mật khẩu. Ví chính là tài khoản.”</td></tr>
+    <tr><td>2</td><td>Khách mới</td><td>Tab <b>Tài sản</b>.</td><td>Khung cảnh báo <i>Cần xác minh danh tính trước khi mua</i>; ô số lượng và nút <i>Mua</i> bị khoá.</td><td>“Quy tắc này nằm trong smart contract chứ không chỉ ở giao diện.”</td></tr>
+    <tr><td>3</td><td>Khách mới</td><td>Tab <b>Danh tính</b> → điền:<br>Tên hiển thị: <code>Lê Văn Cường</code><br>Quốc gia: <code>Việt Nam</code><br>Số CCCD: <code>079200001111</code><br>Ngày sinh: <code>15/08/2002</code><br>→ <b>Gửi hồ sơ lên blockchain</b>.</td><td>Trước khi gửi: dòng <i>Mã băm sẽ gửi đi: 0xcd6eb0f036b3…</i><br>Sau khi gửi: thẻ danh tính với nhãn <b>Chờ duyệt</b>.</td><td>“Số CCCD không rời khỏi máy em. Chỉ dấu vân tay của nó — mã băm — được ghi lên chuỗi.”</td></tr>
+    <tr><td>4</td><td>Quản trị</td><td>Bấm vai <b>Quản trị</b> → tab <b>Quản trị</b> (có số báo hồ sơ chờ) → dòng <i>Lê Văn Cường</i> → <b>Duyệt</b>.</td><td>Nhãn của Cường đổi thành <b>Đã xác minh</b>.</td><td>“Cơ quan xác minh kiểm tra giấy tờ thật ngoài đời rồi ‘đóng dấu’ lên blockchain.”</td></tr>
+    <tr><td>5</td><td>Khách mới</td><td>Tab <b>Tài sản</b> → thẻ <i>Vàng miếng SJC 10 lượng</i> → nhập <code>50</code> → <b>Mua</b>.</td><td>Dòng <i>Tổng tiền: 0,25 ETH</i> trước khi mua. Sau đó: <i>Đã bán 50/100 (50%)</i>, nhãn <i>Bạn giữ 50 cổ phần (50%)</i>; <b>Danh mục của tôi</b> có dòng vàng: 50 cổ phần · 50% · 0,25 ETH.</td><td>“Em vừa sở hữu một nửa số vàng này mà không cần giấy tờ hay trung gian nào.”</td></tr>
+    <tr><td>6</td><td>Quản trị</td><td>Tab <b>Quản trị</b> → <i>Quản lý tài sản</i> → dòng vàng → nhập <code>0.01</code> → <b>Chia</b>.</td><td>Cột <i>Đã chia</i> của vàng thành 0,01 ETH.</td><td>“Đơn vị phát hành nộp lợi nhuận vào contract; contract tự chia theo tỷ lệ.”</td></tr>
+    <tr><td>7</td><td>Khách mới</td><td>Tab <b>Tài sản</b> → <i>Danh mục của tôi</i> → <b>Rút</b>.</td><td>Trước khi rút: <i>Thu nhập chờ rút 0,01 ETH</i> (Cường đang là người duy nhất giữ vàng nên nhận trọn). Sau khi rút: về 0, nút <i>Rút</i> mờ đi, số dư ví tăng.</td><td>“Không ai phải chuyển khoản cho em. Em tự rút đúng phần của mình.”</td></tr>
+    <tr><td>8</td><td>Khách mới</td><td><i>Chuyển nhượng cổ phần</i> → Tài sản: <i>Vàng</i> → Ví nhận: bấm vào ô và chọn <i>Trần Thị Bình</i> trong gợi ý → Số cổ phần: <code>20</code> → <b>Chuyển nhượng</b>.</td><td>Cường còn 30 cổ phần (30%). Mở <i>Ai đang sở hữu?</i> trên thẻ vàng: Cường 30, Bình 20.</td><td>“Chuyển nhượng mất vài giây thay vì vài tuần thủ tục.”</td></tr>
+    <tr><td>9</td><td>Quản trị</td><td>Tab <b>Quản trị</b> → dòng <i>Trần Thị Bình</i> → ô lý do: <code>Giấy tờ hết hạn</code> → <b>Thu hồi</b>.</td><td>Nhãn của Bình thành <b>Bị từ chối</b>. Đổi sang vai Bình: không mua thêm được, nhưng cổ phần đang giữ vẫn còn và vẫn rút được thu nhập.</td><td>“Danh tính có thể bị thu hồi, và mọi quyền mua bán bị khoá ngay lập tức.”</td></tr>
+    <tr><td>10</td><td>Bất kỳ</td><td>Tab <b>Nhật ký</b>.</td><td>Toàn bộ các bước vừa làm hiện theo thứ tự, mỗi dòng có số khối, thời gian và mã giao dịch.</td><td>“Không ai — kể cả nhóm em — sửa hay xoá được các dòng này.”</td></tr>
+  </table></div>
+  <div class="card note"><b>Con số trên Sepolia:</b> giá mẫu nhỏ hơn 200 lần, nên bước 5 tốn 0,00125 ETH (50 × 0,000025) và ở bước 6 nên nhập <code>0.0001</code>. Vai “Khách mới” trên Sepolia là một tài khoản MetaMask mới được ví Quản trị chuyển cho ~0,002 ETH để trả phí.</div>
+
+  <div class="grid2">
+    <figure><img src="img/step-register.png" alt="Bước 3: form đăng ký danh tính đã điền ví dụ, có dòng mã băm sẽ gửi đi" loading="lazy"><figcaption>Hình 8 – Bước 3: điền hồ sơ, mã băm hiện ngay bên dưới.</figcaption></figure>
+    <figure><img src="img/step-pending.png" alt="Sau khi gửi: thẻ danh tính ở trạng thái chờ duyệt" loading="lazy"><figcaption>Hình 9 – Sau khi gửi: thẻ danh tính <i>Chờ duyệt</i>.</figcaption></figure>
+  </div>
+  <div class="grid2">
+    <figure><img src="img/step-approve.png" alt="Bước 4: quản trị duyệt hồ sơ" loading="lazy"><figcaption>Hình 10 – Bước 4: Quản trị duyệt hồ sơ.</figcaption></figure>
+    <figure><img src="img/step-buy.png" alt="Bước 5: sau khi mua 50 cổ phần vàng" loading="lazy"><figcaption>Hình 11 – Bước 5: sau khi mua 50 cổ phần vàng.</figcaption></figure>
+  </div>
+  <figure><img src="img/step-income.png" alt="Bước 7: danh mục hiện thu nhập chờ rút 0,01 ETH" loading="lazy"><figcaption>Hình 12 – Bước 7: thu nhập chờ rút sau khi Quản trị chia 0,01 ETH.</figcaption></figure>
+
+  <h3>7.4. Ví dụ tra cứu &amp; đối chiếu giấy tờ</h3>
+  <p>Đây là phần minh hoạ rõ nhất cho đề tài định danh: <b>một bên thứ ba</b> (ngân hàng, đối tác) tự kiểm tra mà không cần hỏi cơ quan nào. Ở tab <b>Danh tính</b>, khung <i>Tra cứu &amp; đối chiếu</i>:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Nhập</th><th>Kết quả</th><th>Ý nghĩa</th></tr>
+    <tr><td>Để trống tất cả → <b>Tra cứu</b></td><td>Trạng thái của chính ví đang dùng.</td><td>Tự kiểm tra mình.</td></tr>
+    <tr><td>Địa chỉ ví của An (bấm vào địa chỉ ở tab Quản trị hoặc Nhật ký để chép)</td><td>Nhãn <b>Đã xác minh</b> + tên <i>Nguyễn Văn An</i>.</td><td>Ai cũng xác nhận được một ví đã qua KYC.</td></tr>
+    <tr><td>Địa chỉ ví của An + Số giấy tờ <code>001200012345</code> + Ngày sinh <code>20/05/2000</code></td><td><i>Giấy tờ KHỚP với mã băm đã đăng ký trên blockchain.</i></td><td>Người cầm giấy tờ thật chứng minh được nó đúng là của ví này.</td></tr>
+    <tr><td>Như trên nhưng sửa một chữ số: <code>001200012346</code></td><td><i>Giấy tờ KHÔNG khớp…</i></td><td>Đổi một ký tự là mã băm khác hoàn toàn → không làm giả được.</td></tr>
+    <tr><td>Một địa chỉ chưa từng đăng ký</td><td>Nhãn <b>Chưa đăng ký</b>.</td><td>Ví lạ thì không có danh tính.</td></tr>
+  </table></div>
+  <p>Giấy tờ mẫu của các vai có sẵn (giống nhau ở chế độ demo và trên Sepolia): <b>An</b> – <code>001200012345</code>, 20/05/2000; <b>Bình</b> – <code>001200067890</code>, 02/09/2001; <b>Chi</b> (chỉ có ở chế độ demo) – <code>S1234567A</code>, 31/12/1999.</p>
+  <figure><img src="img/step-lookup.png" alt="Kết quả tra cứu: ví của An đã xác minh và giấy tờ khớp" loading="lazy"><figcaption>Hình 13 – Tra cứu ví của An với đúng giấy tờ: <i>KHỚP</i>.</figcaption></figure>
+
+  <h3>7.5. Ví dụ các tình huống bị từ chối</h3>
+  <p>Cho thấy smart contract <b>tự bảo vệ quy tắc</b> thường thuyết phục hơn là chỉ cho thấy nó chạy đúng. Vài tình huống dễ thử:</p>
+  <div class="table-wrap"><table>
+    <tr><th>Thử làm</th><th>Điều xảy ra</th><th>Quy tắc trong contract</th></tr>
+    <tr><td>Vai <b>Khách mới</b> (chưa đăng ký) hoặc <b>Chi</b> (chờ duyệt) vào tab Tài sản</td><td>Khung cảnh báo, ô mua bị khoá.</td><td><code>onlyVerified</code> trong <code>buyShares</code></td></tr>
+    <tr><td>Khách mới đăng ký bằng giấy tờ <u>của An</u>: <code>001200012345</code>, 20/05/2000</td><td>Thông báo: <i>Giấy tờ này đã được đăng ký bởi một ví khác.</i></td><td>Một giấy tờ chỉ gắn với một ví (<code>docOwner</code>)</td></tr>
+    <tr><td>An chuyển cổ phần cho ví của <b>Chi</b> (chưa được duyệt)</td><td>Thông báo: <i>Ví nhận chưa được xác minh danh tính.</i></td><td>Người nhận cũng phải qua KYC</td></tr>
+    <tr><td>An chuyển <code>999</code> cổ phần (nhiều hơn số đang giữ)</td><td>Thông báo: <i>Bạn không đủ cổ phần để chuyển.</i></td><td>Kiểm tra số dư trước khi chuyển</td></tr>
+    <tr><td>An dán chính địa chỉ của mình vào ô ví nhận</td><td>Thông báo: <i>Ví nhận không hợp lệ (không thể tự chuyển cho mình).</i></td><td>Kiểm tra người nhận</td></tr>
+    <tr><td>Quản trị bấm <b>Ngừng bán</b> ở một tài sản</td><td>Thẻ tài sản hiện nhãn <i>Tạm ngừng bán</i>, ô mua biến mất với mọi người.</td><td><code>setSaleOpen</code> – chỉ đơn vị phát hành</td></tr>
+    <tr><td>Quản trị <b>Thu hồi</b> danh tính của một người đang giữ cổ phần</td><td>Người đó không mua / nhận / chuyển được nữa, nhưng vẫn rút được thu nhập đã chia.</td><td><code>revoke</code> + <code>onlyVerified</code></td></tr>
+    <tr><td>Vai thường (An, Bình…) tìm tab Quản trị</td><td>Không có tab này. Kể cả gọi thẳng contract cũng bị từ chối: <i>Only owner / Only verifier</i>.</td><td><code>onlyOwner</code>, <code>onlyVerifier</code></td></tr>
+  </table></div>
+  <div class="card note">Trên Sepolia, một giao dịch sai quy tắc bị chặn <b>trước khi gửi</b>: trang chạy thử, nhận lý do từ chối từ contract và hiện thông báo, nên MetaMask không bật lên và bạn không tốn phí gas.</div>
+
+  <h3>7.6. Câu hỏi hay gặp khi bảo vệ &amp; gợi ý trả lời</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Câu hỏi</th><th>Ý chính để trả lời</th></tr>
+    <tr><td>Dữ liệu được lưu ở đâu? Có máy chủ không?</td><td>Không có backend hay cơ sở dữ liệu. Trang web là file tĩnh; toàn bộ dữ liệu và luật nằm trong 2 smart contract trên Ethereum (mục 3.2). Chiếu địa chỉ contract trên Etherscan (mục 6.1).</td></tr>
+    <tr><td>Thông tin cá nhân có bị lộ trên blockchain không?</td><td>Chỉ tên hiển thị, quốc gia và mã băm của giấy tờ. Số giấy tờ không rời trình duyệt (mục 2.5). Nêu luôn hạn chế: băm chưa có “muối”, tên vẫn công khai (mục 9).</td></tr>
+    <tr><td>Ai cũng tự xác minh cho mình được à?</td><td>Không. Chỉ ví có quyền xác minh viên mới gọi được <code>verify</code>; quyền này do chủ hệ thống cấp (mục 4.2). Thử bằng vai An: không có tab Quản trị.</td></tr>
+    <tr><td>Token ở đây theo chuẩn nào?</td><td>Mô hình giống ERC-1155 (nhiều tài sản, mỗi tài sản nhiều cổ phần) kèm kiểm tra danh tính kiểu ERC-3643, viết gọn để dễ hiểu; chưa tương thích ví / sàn khác (mục 2.3, 9).</td></tr>
+    <tr><td>Token có thật sự gắn với căn hộ ngoài đời không?</td><td>Token chỉ là bản ghi quyền sở hữu. Việc nó tương ứng với tài sản thật phụ thuộc đơn vị phát hành và khung pháp lý — đây là giới hạn chung của RWA (mục 2.3).</td></tr>
+    <tr><td>Chia thu nhập cho 10.000 người thì có tốn gas khủng khiếp không?</td><td>Không. Contract chỉ cộng dồn “thu nhập trên mỗi cổ phần” một lần; mỗi người tự rút phần mình (mục 4.3, có ví dụ số).</td></tr>
+    <tr><td>Chế độ demo có phải blockchain thật không?</td><td>Không. Nó chạy đúng 2 contract trên một máy ảo Ethereum trong trình duyệt để minh hoạ logic. Tính bất biến và phi tập trung chỉ có ở bản Sepolia (mục 12.2).</td></tr>
+    <tr><td>Nếu mất khoá ví Quản trị thì sao?</td><td>Mất quyền điều hành — đây là điểm yếu của mô hình một ví. Hướng khắc phục: multi-sig hoặc DAO (mục 9).</td></tr>
+    <tr><td>Vì sao dùng Sepolia mà không phải mạng chính?</td><td>Testnet giống hệt về kỹ thuật nhưng ETH không có giá trị, phù hợp để học và thử (mục 2.2, 6).</td></tr>
+  </table></div>
+
+  <h3>7.7. Phương án dự phòng</h3>
+  <ul>
+    <li><b>Mất mạng hoặc Sepolia chậm:</b> chuyển sang chế độ demo (thêm <code>?demo</code>); trang đã mở từ trước vẫn chạy được vì blockchain mô phỏng nằm trong trình duyệt.</li>
+    <li><b>MetaMask báo lỗi hoặc hết ETH thử nghiệm:</b> dùng chế độ demo cho phần thao tác, rồi mở các giao dịch đã chạy sẵn ở mục 6.1 trên Etherscan làm bằng chứng.</li>
+    <li><b>Dữ liệu Sepolia bị người khác thay đổi</b> (vì khoá ví thử nghiệm công khai): deploy lại theo hướng dẫn ở mục 6.1.</li>
+    <li><b>Không mở được trang online:</b> chạy trên máy bằng <code>npm run serve</code> rồi mở <code>http://localhost:5173/?demo</code>.</li>
+  </ul>
 
   <!-- ===================== 8 ===================== -->
   <h2 id="loi"><span class="no">8.</span>Lỗi thường gặp</h2>
